@@ -12,6 +12,7 @@ import ReduxExamples from "./ReduxExamples";
 import AddRedux from "./ReduxExamples/AddRedux";
 import CounterRedux from "./ReduxExamples/CounterRedux";
 import HelloRedux from "./ReduxExamples/HelloRedux";
+import TodoList from "./ReduxExamples/todos/TodoList";
 import StringStateVariables from "./StringStateVariables";
 
 export default function Lab4() {
@@ -37,6 +38,7 @@ export default function Lab4() {
             <HelloRedux />
             <CounterRedux />
             <AddRedux />
+            <TodoList />
         </div>
     )
 }
