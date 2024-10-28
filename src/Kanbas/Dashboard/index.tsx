@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { courses } from "../Database";
+import { courses as courseTemp} from "../Database";
 export default function Dashboard() {
 
-  const [coursesCurr, setCourses] = useState(courses);
+  const [courses, setCourses] = useState(courseTemp);
   const [course, setCourse] = useState<any>({
     _id: "0", name: "New Course", number: "New Number",
     startDate: "2023-09-10", endDate: "2023-12-15",
@@ -15,6 +15,11 @@ export default function Dashboard() {
                         _id: new Date().getTime().toString() };
     setCourses([...courses, { ...course, ...newCourse }]);
   };
+
+  const deleteCourse = (courseId: string) => {
+    setCourses(courses.filter((course) => course._id !== courseId));
+  };
+
 
   return (
     <div id="wd-dashboard">
@@ -34,11 +39,11 @@ export default function Dashboard() {
         
         <hr />
 
-      <h2 id="wd-dashboard-published">Published Courses ({coursesCurr.length})</h2> <hr />
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {coursesCurr.map((course) => (
+          {courses.map((course) => (
             <div className="wd-dashboard-course col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">
                 <Link to={`/Kanbas/Courses/${course._id}/Home`}
@@ -50,6 +55,13 @@ export default function Dashboard() {
                     <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
                       {course.description} </p>
                     <button className="btn btn-primary"> Go </button>
+                    <button onClick={(event) => {
+                      event.preventDefault();
+                      deleteCourse(course._id);
+                      }} className="btn btn-danger float-end"
+                      id="wd-delete-course-click">
+                      Delete
+                    </button>
                   </div>
                 </Link>
               </div>
