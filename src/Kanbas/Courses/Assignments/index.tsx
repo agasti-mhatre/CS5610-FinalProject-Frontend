@@ -5,6 +5,7 @@ import LessonControlButtons from "../Modules/LessonControlButtons";
 import { PiNotebookDuotone } from "react-icons/pi";
 import { assignments } from "../../Database";
 import { useParams } from "react-router";
+import Protected from "../../Dashboard/Protected";
 
 export default function Assignments() {
 
@@ -19,6 +20,14 @@ export default function Assignments() {
             <div className="wd-title p-3 ps-2 bg-secondary">
               <BsGripVertical className="me-2 fs-3" />
                 Assignments
+              
+              <Protected>
+                <ModuleControlButtons moduleId={""} deleteModule={function (moduleId: string): void {
+                  throw new Error("Function not implemented.");
+                } } editModule={function (moduleId: string): void {
+                  throw new Error("Function not implemented.");
+                } } />
+              </Protected>
             </div>
 
             <ul className="wd-lessons list-group rounded-0">

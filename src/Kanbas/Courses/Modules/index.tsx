@@ -7,6 +7,7 @@ import { useParams } from "react-router";
 import { addModule, editModule, updateModule, deleteModule }
   from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
+import Protected from "../../Dashboard/Protected";
 
 export default function Modules() {
 
@@ -43,19 +44,21 @@ export default function Modules() {
                         }}
                         defaultValue={module.name}/>
                 )}
-                <ModuleControlButtons moduleId={module._id} deleteModule=
-                {
-                  (moduleId) => 
-                    {
-                      dispatch(deleteModule(moduleId))
-                    }
-                } 
-                editModule={
-                  (moduleId) =>
+                <Protected>
+                  <ModuleControlButtons moduleId={module._id} deleteModule=
                   {
-                    dispatch(editModule(moduleId))
-                  }
-                }/>
+                    (moduleId) => 
+                      {
+                        dispatch(deleteModule(moduleId))
+                      }
+                  } 
+                  editModule={
+                    (moduleId) =>
+                    {
+                      dispatch(editModule(moduleId))
+                    }
+                  }/>
+                </Protected>
               </div>
               {module.lessons && (
                 <ul className="wd-lessons list-group rounded-0">
