@@ -10,14 +10,36 @@ const enrollmentSlice = createSlice({
     name: "enrollment",
     initialState,
     reducers: {
-        addEnrollment: (state, { payload: module }) => {
+        addEnrollment: (state, { payload: enrollment }) => {
 
-            },
-        deleteEnrollment: (state, { payload: moduleId }) => {
+            const newEnrollment = {
 
-            
-            },
+                "_id": enrollment._id,
+                "user": enrollment.user,
+                "course": enrollment.course
+            }
+            state.enrollments = [...state.enrollments, newEnrollment];
+        },
+        deleteEnrollment: (state, { payload: enrollment }) => {
+
+            const courseID = enrollment.course;
+            const userID = enrollment.user;
+
+            console.log("-----------------------");
+            console.log(courseID);
+            console.log(userID);
+            console.log(typeof courseID);
+            console.log(typeof userID);
+            console.log("-----------------------");
+
+            state.enrollments = state.enrollments.filter(
+                (enr: any) => !((enr.user === userID) && (enr.course === courseID))
+            );
+        },
     }
 });
+
+export const { addEnrollment, deleteEnrollment } =
+  enrollmentSlice.actions;
 
 export default enrollmentSlice.reducer;
