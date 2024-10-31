@@ -13,7 +13,7 @@ export default function TOC() {
         <li className="nav-item"><a id="wd-a4" href="#/Labs/Lab4"
           className={`nav-link ${pathname.includes("Lab4") ? "active" : ""}`}>Lab 4</a></li>
       <li className="nav-item"><a id="wd-k" href="#/Kanbas" className="nav-link">Kanbas</a></li>
-      <li className="nav-item"><a id="wd-github" href="https://github.com/agasti-mhatre/cs5610-assignments/tree/a3" target="_blank"
+      <li className="nav-item"><a id="wd-github" href="https://github.com/agasti-mhatre/cs5610-assignments/tree/a4" target="_blank"
           className="nav-link">My GitHub</a></li>
     </ul>
 );}
