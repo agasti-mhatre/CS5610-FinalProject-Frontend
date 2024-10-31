@@ -1,18 +1,46 @@
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { assignments } from "../../Database";
 import { Link } from "react-router-dom";
+import { addAssignment } from "./reducer";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 export default function AssignmentEditor() {
 
     const { cid, aid } = useParams();
     const assignment = assignments.find((x) => x._id == aid);
 
+    const dispatch = useDispatch();
+
+    const seg = useLocation().pathname.split('/');
+    const loc = seg[seg.length - 1];
+    const [assignmentName, setName] = useState(assignment ? assignment.title : "")
+
+    console.log("skibidi");
+    console.log(cid);
+    console.log(aid);
+    const addOrEdit = () => {
+
+        if (loc === "Editor") {
+            
+            const new_assignment = {"_id": new Date().getTime().toString(), "title": assignmentName, "course": cid}
+            dispatch(addAssignment(new_assignment));
+        }
+        else {
+
+        }
+    }
+
+    const nameChange = (e: any) => {
+        setName(e.target.value)
+    }
+
     return (
       <div id="wd-assignments-editor">
 
         <div className="d-flex flex-column mb-3">
             <label htmlFor="wd-name">Assignment Name</label>
-            <input id="wd-name" value={assignment ? assignment.title : ""} className="form-control"/>
+            <input id="wd-name" value={assignmentName} className="form-control" onChange={(e) => nameChange(e)}/>
         </div>
 
         <textarea id="wd-description" className="form-control mb-3">
@@ -120,7 +148,10 @@ export default function AssignmentEditor() {
 
             <div className="ms-auto mt-3">
                 <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">Cancel</Link>
-                <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger me-2">Save</Link>
+                <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
+                    <button className="btn btn-danger me-2"
+                            onClick={addOrEdit}>Save</button>
+                </Link>
             </div>
         
         </div>

@@ -1,7 +1,10 @@
 import { FaPlus } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { Link, useLocation } from "react-router-dom";
 
 export default function AssignmentsControls() {
+
+    const location = useLocation();
 
     return (
 
@@ -15,10 +18,13 @@ export default function AssignmentsControls() {
             </div>
             
             <div className="ms-auto">
-                <button className="btn btn-lg btn-danger me-2">
-                    <FaPlus className="fs-5 me-2 mb-1"/>
-                    Assignment
-                </button>
+
+                <Link to={`${location.pathname}/Editor`}>
+                    <button className="btn btn-lg btn-danger me-2">
+                        <FaPlus className="fs-5 me-2 mb-1"/>
+                        Assignment
+                    </button>
+                </Link>
 
                 <button className="btn btn-lg btn-secondary me-2">
                     <FaPlus className="fs-5 me-2 mb-1"/>

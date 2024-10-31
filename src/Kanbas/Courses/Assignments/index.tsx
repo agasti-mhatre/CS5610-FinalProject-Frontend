@@ -1,15 +1,19 @@
 import { BsGripVertical } from "react-icons/bs";
 import AssignmentsControls from "./AssignmentsControls";
-import ModuleControlButtons from "../Modules/ModuleControlButtons";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import { PiNotebookDuotone } from "react-icons/pi";
-import { assignments } from "../../Database";
 import { useParams } from "react-router";
 import Protected from "../../Dashboard/Protected";
+import { useDispatch, useSelector } from "react-redux";
+import { IoEllipsisVertical } from "react-icons/io5";
+import GreenCheckmark from "../Modules/GreenCheckmark";
+import { FaPencil, FaTrash } from "react-icons/fa6";
+import { deleteAssignment } from "./reducer";
 
 export default function Assignments() {
 
     const { cid } = useParams();
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const dispatch = useDispatch();
 
     return (
       <div id="wd-assignments">
@@ -21,23 +25,19 @@ export default function Assignments() {
               <BsGripVertical className="me-2 fs-3" />
                 Assignments
               
-              <Protected>
-                <ModuleControlButtons moduleId={""} deleteModule={function (moduleId: string): void {
-                  throw new Error("Function not implemented.");
-                } } editModule={function (moduleId: string): void {
-                  throw new Error("Function not implemented.");
-                } } />
-              </Protected>
+              <IoEllipsisVertical className="fs-4 float-end" />
+              {/*<Protected>
+              </Protected>*/}
             </div>
 
             <ul className="wd-lessons list-group rounded-0">
             
               {
                 assignments
-                .filter((assignment) => assignment.course === cid)
+                .filter((assignment : any) => assignment.course === cid)
                 .map(
 
-                  (assignment) => (
+                  (assignment: any) => (
                     <li className="wd-lesson list-group-item p-3 ps-1">
                       <div className="d-flex align-items-center">
                         <BsGripVertical className="me-2 fs-3" />
@@ -55,7 +55,16 @@ export default function Assignments() {
                             | <span className="fw-bold">Due</span> May 13 at 11:59pm | 100 pts</p>
                         </div>
                         <div className="ms-auto">
-                          <LessonControlButtons />
+                        <div className="float-end">
+                          
+                          <Protected>
+                            <FaPencil className="text-primary me-3" />
+                            <FaTrash className="text-danger me-2 mb-1" onClick={() => dispatch(deleteAssignment(assignment._id))}/>
+                          </Protected>
+
+                          <GreenCheckmark />
+                          <IoEllipsisVertical className="fs-4" />
+                        </div>
                         </div>
                       </div>
                     </li>
