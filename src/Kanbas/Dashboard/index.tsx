@@ -15,8 +15,6 @@ export default function Dashboard(
     const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
     const dispatch = useDispatch();
 
-    console.log(enrollments);
-
     const [showEnrollment, setEnrollment] = useState(true);
     const shownCourses = showEnrollment ? courses.filter((course: any) =>
       

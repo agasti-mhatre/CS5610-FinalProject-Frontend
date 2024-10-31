@@ -25,13 +25,6 @@ const enrollmentSlice = createSlice({
             const courseID = enrollment.course;
             const userID = enrollment.user;
 
-            console.log("-----------------------");
-            console.log(courseID);
-            console.log(userID);
-            console.log(typeof courseID);
-            console.log(typeof userID);
-            console.log("-----------------------");
-
             state.enrollments = state.enrollments.filter(
                 (enr: any) => !((enr.user === userID) && (enr.course === courseID))
             );
