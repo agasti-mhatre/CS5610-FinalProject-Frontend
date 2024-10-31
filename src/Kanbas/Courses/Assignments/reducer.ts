@@ -16,7 +16,10 @@ const assignmentsSlice = createSlice({
             const newAssignment: any = {
                 _id: assignment._id,
                 title: assignment.title,
-                course: assignment.course
+                course: assignment.course,
+                points: assignment.points,
+                due: assignment.due,
+                available: assignment.available
             };
             state.assignments = [...state.assignments, newAssignment];
         },

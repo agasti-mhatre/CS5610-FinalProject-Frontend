@@ -51,8 +51,8 @@ export default function Assignments() {
                           </p>
                           <p className="fs-6"> 
                             <span className="text-danger">Multiple Modules</span>&nbsp;
-                            | <span className="fw-bold">Not available until</span> May 6 at 12:00am 
-                            | <span className="fw-bold">Due</span> May 13 at 11:59pm | 100 pts</p>
+                            | <span className="fw-bold">Not available until</span> {assignment.available} at 12:00am 
+                            | <span className="fw-bold">Due</span> {assignment.due} at 11:59pm | {assignment.points} pts</p>
                         </div>
                         <div className="ms-auto">
                         <div className="float-end">

@@ -14,16 +14,25 @@ export default function AssignmentEditor() {
 
     const seg = useLocation().pathname.split('/');
     const loc = seg[seg.length - 1];
-    const [assignmentName, setName] = useState(assignment ? assignment.title : "")
 
-    console.log("skibidi");
-    console.log(cid);
-    console.log(aid);
+    const [assignmentName, setName] = useState(assignment ? assignment.title : "")
+    const [assignmentPoints, setPoints] = useState(100)
+    const [dueDate, setDueDate] = useState("mm/dd/yyyy")
+    const [availability, setAvailability] = useState("mm/dd/yyyy")
+
     const addOrEdit = () => {
 
         if (loc === "Editor") {
             
-            const new_assignment = {"_id": new Date().getTime().toString(), "title": assignmentName, "course": cid}
+            const new_assignment = {
+                "_id": new Date().getTime().toString(), 
+                "title": assignmentName, 
+                "course": cid, 
+                "points": assignmentPoints,
+                "due": dueDate,
+                "available": availability
+            }
+
             dispatch(addAssignment(new_assignment));
         }
         else {
@@ -33,6 +42,18 @@ export default function AssignmentEditor() {
 
     const nameChange = (e: any) => {
         setName(e.target.value)
+    }
+
+    const pointsChange = (e: any) => {
+        setPoints(e.target.value)
+    }
+
+    const dueDateChange = (e: any) => {
+        setDueDate(e.target.value)
+    }
+
+    const availabilityDateChange = (e: any) => {
+        setAvailability(e.target.value)
     }
 
     return (
@@ -55,7 +76,7 @@ export default function AssignmentEditor() {
 
             <div className="d-flex ms-auto mb-3 w-50">
                 <label htmlFor="wd-points" className="me-2">Points</label>
-                <input id="wd-points" className="form-select" value={100} />
+                <input id="wd-points" className="form-control" value={assignmentPoints} onChange={(e) => pointsChange(e)} />
             </div>
 
             <div className="d-flex ms-auto mb-3 w-50">
@@ -128,13 +149,13 @@ export default function AssignmentEditor() {
                     <input id="wd-assign-to" className="form-control mb-3" value="Everyone" />                
 
                     <label htmlFor="wd-due-date">Due </label>
-                    <input id="wd-due-date" type="date" className="form-control mb-3"/>
+                    <input id="wd-due-date" type="date" className="form-control mb-3" value={dueDate} onChange={(e) => dueDateChange(e)}/>
 
                     <div className="d-flex">
                     
                         <div className="d-flex flex-column me-3">
                             <label htmlFor="wd-available-form" className="mb-2">Available from </label>        
-                            <input id="wd-available-from" type="date" className="form-control me-3"/>
+                            <input id="wd-available-from" type="date" className="form-control me-3" value={availability} onChange={(e) => availabilityDateChange(e)}/>
                         </div>
 
                         <div className="d-flex flex-column me-3">
