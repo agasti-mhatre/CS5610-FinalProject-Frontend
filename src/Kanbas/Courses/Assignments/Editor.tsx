@@ -1,14 +1,15 @@
 import { useLocation, useParams } from "react-router";
-import { assignments } from "../../Database";
 import { Link } from "react-router-dom";
-import { addAssignment } from "./reducer";
-import { useDispatch } from "react-redux";
+import { addAssignment, updateAssignment } from "./reducer";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 export default function AssignmentEditor() {
 
     const { cid, aid } = useParams();
-    const assignment = assignments.find((x) => x._id == aid);
+    const assignment = useSelector((state: any) =>
+        state.assignmentsReducer.assignments.find((x: any) => x._id === aid)
+    );
 
     const dispatch = useDispatch();
 
@@ -17,8 +18,8 @@ export default function AssignmentEditor() {
 
     const [assignmentName, setName] = useState(assignment ? assignment.title : "")
     const [assignmentPoints, setPoints] = useState(100)
-    const [dueDate, setDueDate] = useState("mm/dd/yyyy")
-    const [availability, setAvailability] = useState("mm/dd/yyyy")
+    const [dueDate, setDueDate] = useState(assignment? assignment.due : "yyyy-mm-dd")
+    const [availability, setAvailability] = useState(assignment? assignment.available : "yyyy-mm-dd")
 
     const addOrEdit = () => {
 
@@ -36,6 +37,17 @@ export default function AssignmentEditor() {
             dispatch(addAssignment(new_assignment));
         }
         else {
+
+            const new_assignment = {
+                "_id": aid, 
+                "title": assignmentName, 
+                "course": cid, 
+                "points": assignmentPoints,
+                "due": dueDate,
+                "available": availability
+            }
+
+            dispatch(updateAssignment(new_assignment));
 
         }
     }

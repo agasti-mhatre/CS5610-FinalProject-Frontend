@@ -8,6 +8,7 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 import { deleteAssignment } from "./reducer";
+import { Link } from "react-router-dom";
 
 export default function Assignments() {
 
@@ -26,8 +27,6 @@ export default function Assignments() {
                 Assignments
               
               <IoEllipsisVertical className="fs-4 float-end" />
-              {/*<Protected>
-              </Protected>*/}
             </div>
 
             <ul className="wd-lessons list-group rounded-0">
@@ -58,7 +57,10 @@ export default function Assignments() {
                         <div className="float-end">
                           
                           <Protected>
-                            <FaPencil className="text-primary me-3" />
+                            <Link to={`/Kanbas/Courses/${assignment.course}/Assignments/${assignment._id}`}>
+                              <FaPencil className="text-primary me-3" />
+                            </Link>
+
                             <FaTrash className="text-danger me-2 mb-1" onClick={() => dispatch(deleteAssignment(assignment._id))}/>
                           </Protected>
 
