@@ -9,7 +9,8 @@ const store = configureStore({
     helloReducer,
     counterReducer,
     addReducer,
-    todosReducer
+    todosReducer,
+    // quizzesReducer
   },
 });
 export default store;

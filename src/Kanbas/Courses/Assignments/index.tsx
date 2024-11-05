@@ -25,12 +25,12 @@ export default function Assignments() {
             <div className="wd-title p-3 ps-2 bg-secondary">
               <BsGripVertical className="me-2 fs-3" />
                 Assignments
-              
+
               <IoEllipsisVertical className="fs-4 float-end" />
             </div>
 
             <ul className="wd-lessons list-group rounded-0">
-            
+
               {
                 assignments
                 .filter((assignment : any) => assignment.course === cid)
@@ -48,14 +48,14 @@ export default function Assignments() {
                               {assignment.title}
                             </a>
                           </p>
-                          <p className="fs-6"> 
+                          <p className="fs-6">
                             <span className="text-danger">Multiple Modules</span>&nbsp;
-                            | <span className="fw-bold">Not available until</span> {assignment.available} at 12:00am 
+                            | <span className="fw-bold">Not available until</span> {assignment.available} at 12:00am
                             | <span className="fw-bold">Due</span> {assignment.due} at 11:59pm | {assignment.points} pts</p>
                         </div>
                         <div className="ms-auto">
                         <div className="float-end">
-                          
+
                           <Protected>
                             <Link to={`/Kanbas/Courses/${assignment.course}/Assignments/${assignment._id}`}>
                               <FaPencil className="text-primary me-3" />
@@ -79,4 +79,4 @@ export default function Assignments() {
         </ul>
 
       </div>
-  );}  
+  );}
