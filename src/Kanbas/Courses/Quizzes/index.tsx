@@ -38,7 +38,7 @@ export default function Quizzes() {
                                                 <p className="fs-4">
                                                     <Link
                                                         className="wd-quiz-link text-dark text-decoration-none"
-                                                        to={`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}`}
+                                                        to={`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/details`}
                                                     >
                                                         {quiz.title}
                                                     </Link>
@@ -52,7 +52,7 @@ export default function Quizzes() {
                                             <div className="ms-auto">
                                                 <div className="float-end">
                                                     <Protected>
-                                                        <Link to={`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Edit`}>
+                                                        <Link to={`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}`}>
                                                             <FaPencil className="text-primary me-3" />
                                                         </Link>
                                                         <FaTrash
