@@ -16,14 +16,7 @@ export default function Dashboard(
     const dispatch = useDispatch();
 
     const [showEnrollment, setEnrollment] = useState(true);
-    const shownCourses = showEnrollment ? courses.filter((course: any) =>
-      
-        enrollments.some(
-          (enrollment: any) =>
-            enrollment.user === currentUser._id &&
-            enrollment.course === course._id
-        )
-      ) : courses;
+    const shownCourses = courses;
 
     const toggleEnrollment = () => {
       setEnrollment(!showEnrollment);

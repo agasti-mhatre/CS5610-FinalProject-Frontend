@@ -21,13 +21,14 @@ export default function Kanbas() {
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const addNewCourse = () => {
-    const newCourse = { ...course,
-                        _id: new Date().getTime().toString() };
-    setCourses([...courses, { ...course, ...newCourse }]);
+  const addNewCourse = async () => {
+
+    const newCourse = await userClient.createCourse(course);
+    setCourses([ ...courses, newCourse ]);
   };
 
   const deleteCourse = (courseId: string) => {
+
     setCourses(courses.filter((course) => course._id !== courseId));
   };
 
