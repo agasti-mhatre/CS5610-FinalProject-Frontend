@@ -35,6 +35,11 @@ export default function Modules() {
     dispatch(deleteModule(moduleId));
   };
 
+  const saveModule = async (module: any) => {
+    await modulesClient.updateModule(module);
+    dispatch(updateModule(module));
+  };
+
   useEffect(() => {
     fetchModules();
   }, []);
@@ -58,13 +63,14 @@ export default function Modules() {
                         }
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
-                            dispatch(updateModule({ ...module, editing: false }));
+                            saveModule({ ...module, editing: false });
                           }
                         }}
                         defaultValue={module.name}/>
                 )}
                 <Protected>
-                  <ModuleControlButtons moduleId={module._id} deleteModule={(moduleId) => removeModule(moduleId)}
+                  <ModuleControlButtons moduleId={module._id} 
+                  deleteModule={(moduleId) => removeModule(moduleId)}
                   editModule={
                     (moduleId) =>
                     {
