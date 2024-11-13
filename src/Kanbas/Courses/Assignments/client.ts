@@ -6,9 +6,14 @@ const ASSIGNMENTS_API = `${REMOTE_SERVER}/api/assignments`;
 export const fetchAssignmentsForCourse = async (cid: string) => {
 
     const response = await axios.get(`${ASSIGNMENTS_API}/${cid}`);
-    console.log("Response: ", response);
     return response.data;
 };
+
+export const addAssignment = async (newAssignment: any) => {
+
+    const response = await axios.post(`${ASSIGNMENTS_API}`, newAssignment);
+    return response.data;
+}
 
 export const deleteAssignment = async (assignmentId: string) => {
 

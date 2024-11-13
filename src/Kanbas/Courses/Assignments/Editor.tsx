@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { addAssignment, updateAssignment } from "./reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import * as assignmentClient from "./client"
 
 export default function AssignmentEditor() {
 
@@ -21,7 +22,7 @@ export default function AssignmentEditor() {
     const [dueDate, setDueDate] = useState(assignment? assignment.due : "yyyy-mm-dd")
     const [availability, setAvailability] = useState(assignment? assignment.available : "yyyy-mm-dd")
 
-    const addOrEdit = () => {
+    const addOrEdit = async () => {
 
         if (loc === "Editor") {
             
@@ -34,6 +35,7 @@ export default function AssignmentEditor() {
                 "available": availability
             }
 
+            await assignmentClient.addAssignment(new_assignment);
             dispatch(addAssignment(new_assignment));
         }
         else {
