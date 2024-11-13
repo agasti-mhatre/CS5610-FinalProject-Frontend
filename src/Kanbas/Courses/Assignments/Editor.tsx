@@ -49,8 +49,8 @@ export default function AssignmentEditor() {
                 "available": availability
             }
 
+            await assignmentClient.updateAssignment(new_assignment);
             dispatch(updateAssignment(new_assignment));
-
         }
     }
 
