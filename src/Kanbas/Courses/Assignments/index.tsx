@@ -7,14 +7,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FaPencil, FaTrash } from "react-icons/fa6";
-import { deleteAssignment } from "./reducer";
+import { setAssignments, deleteAssignment } from "./reducer";
 import { Link } from "react-router-dom";
+import * as assignmentClient from "./client";
+import { useEffect } from "react";
 
 export default function Assignments() {
 
     const { cid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const dispatch = useDispatch();
+
+    const fetchAssignments = async () => {
+
+      const assignments = await assignmentClient.fetchAssignmentsForCourse(cid as string);
+      console.log(assignments);
+      dispatch(setAssignments(assignments));
+    }
+
+    const removeAssignment = async (_id: string) => {
+
+      await assignmentClient.deleteAssignment(_id);
+      dispatch(deleteAssignment(_id));
+    };
+
+    useEffect(() => {
+      fetchAssignments();
+    }, []);
 
     return (
       <div id="wd-assignments">
@@ -61,7 +80,7 @@ export default function Assignments() {
                               <FaPencil className="text-primary me-3" />
                             </Link>
 
-                            <FaTrash className="text-danger me-2 mb-1" onClick={() => dispatch(deleteAssignment(assignment._id))}/>
+                            <FaTrash className="text-danger me-2 mb-1" onClick={() => removeAssignment(assignment._id)}/>
                           </Protected>
 
                           <GreenCheckmark />
