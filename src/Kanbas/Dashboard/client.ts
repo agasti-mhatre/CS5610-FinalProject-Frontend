@@ -11,7 +11,7 @@ export const addEnrollment = async (newEnrollment: any) => {
 
 export const deleteEnrollment = async (removeEnrollment: any) => {
 
-    const response = await axios.delete(`${ENROLLMENTS_API}`, removeEnrollment);
+    const response = await axios.delete(`${ENROLLMENTS_API}/${removeEnrollment.course}/${removeEnrollment.user}`);
     return response.data;
 }
 

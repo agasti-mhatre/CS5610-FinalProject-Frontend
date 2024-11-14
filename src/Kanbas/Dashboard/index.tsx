@@ -18,7 +18,14 @@ export default function Dashboard(
     const dispatch = useDispatch();
 
     const [showEnrollment, setEnrollment] = useState(true);
-    const shownCourses = showEnrollment ? enrollments: courses;
+    const shownCourses = showEnrollment ? courses.filter((course: any) =>
+      
+      enrollments.some(
+        (enrollment: any) =>
+          enrollment.user === currentUser._id &&
+          enrollment.course === course._id
+      )
+    ) : courses;
 
     const toggleEnrollment = () => {
       setEnrollment(!showEnrollment);
@@ -45,7 +52,7 @@ export default function Dashboard(
       }
 
       await enrollmentClient.addEnrollment(newEnrollment);
-      dispatch(addEnrollment({...course, "user": currentUser._id}));
+      dispatch(addEnrollment(newEnrollment));
     }
 
     const removeCurrEnrollment = async (courseID: any) => {
