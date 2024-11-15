@@ -1,11 +1,7 @@
-const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
-const ENROLLMENTS_API = `${REMOTE_SERVER}/api/enrollments`;
-
 export default function Lab1() {
     return (
       <div id="wd-lab1">
         <h2>Lab 1</h2>
-        <p>{REMOTE_SERVER}</p>
         <h3>HTML Examples</h3>
         <div id="wd-h-tag">
           <h4>Heading Tags</h4>
