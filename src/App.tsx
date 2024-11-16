@@ -1,19 +1,24 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './Home';
-import Profile from './Profile';
+import Labs from "./Labs";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import Kanbas from './Kanbas';
+import store from "./Kanbas/store";
+import { Provider } from "react-redux";
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/Home" element={ <Home /> }></Route>
-          <Route path="/Profile" element={ <Profile/> }></Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <HashRouter>
+      <Provider store = {store}>
+        <div>
+          <Routes>
+            <Route path="/" element={<Navigate to="Kanbas"/>} />
+            <Route path="/Labs/*" element={<Labs />} />
+            <Route path="/Kanbas/*" element={<Kanbas />} />
+          </Routes>
+        </div>
+      </Provider>
+    </HashRouter>
   );
 }
 
