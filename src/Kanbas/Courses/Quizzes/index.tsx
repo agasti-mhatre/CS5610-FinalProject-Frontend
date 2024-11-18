@@ -7,6 +7,8 @@ export default function Quizzes() {
         <Link to={"Michael"}>Michael</Link>
         <br />
         <Link to={"Nour"}>Nour</Link>
+        <br />
+        <Link to={"Preview"}>Preview</Link>
       </div>
     );
 }
