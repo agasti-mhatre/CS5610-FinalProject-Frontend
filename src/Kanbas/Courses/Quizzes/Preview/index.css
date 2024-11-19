@@ -1,0 +1,148 @@
+.wd-quiz-preview {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.wd-quiz-preview h2 {
+    font-size: 32px;
+    color: #2D3B45;
+    margin-bottom: 20px;
+}
+
+.wd-preview-warning {
+    background-color: #F5E6E6;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.wd-info-icon {
+    color: #C7302B;
+}
+
+.wd-started {
+    color: #2D3B45;
+    margin-bottom: 20px;
+}
+
+.wd-quiz-instructions {
+    border-bottom: 1px solid #C7CDD1;
+    margin-bottom: 20px;
+}
+
+.wd-quiz-instructions h3 {
+    font-size: 24px;
+    color: #2D3B45;
+    margin-bottom: 10px;
+}
+
+.wd-question-container {
+    border: 1px solid #C7CDD1;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.wd-question-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #C7CDD1;
+    background-color: #F5F5F5;
+}
+
+.wd-question-content {
+    padding: 20px;
+}
+
+.wd-keyword {
+    font-family: monospace;
+    background-color: #F5F5F5;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.wd-options {
+    margin-top: 20px;
+}
+
+.wd-radio-option {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wd-radio-option input[type="radio"] {
+    margin: 0;
+}
+
+.wd-question-footer {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #C7CDD1;
+}
+
+.wd-btn {
+    padding: 8px 16px;
+    border-radius: 3px;
+    border: 1px solid #C7CDD1;
+    background: white;
+    cursor: pointer;
+}
+
+.wd-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.wd-btn-next, .wd-btn-submit {
+    background-color: #2D3B45;
+    color: white;
+    border: none;
+}
+
+.wd-quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-top: 1px solid #C7CDD1;
+    border-bottom: 1px solid #C7CDD1;
+    margin-bottom: 20px;
+}
+
+.wd-keep-editing {
+    border: 1px solid #C7CDD1;
+    border-radius: 3px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.wd-btn-edit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2D3B45;
+    border: none;
+    padding: 0;
+}
+
+.wd-questions-list h3 {
+    font-size: 24px;
+    color: #2D3B45;
+    margin-bottom: 15px;
+}
+
+.wd-question-link {
+    color: #C7302B;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.wd-question-number {
+    margin-left: 20px;
+}
