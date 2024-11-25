@@ -1,130 +1,159 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import MultipleChoiceEditor from "./MultipleChoiceEditor";
+import TrueFalseEditor from "./TrueFalseEditor";
+import FillInTheBlankEditor from "./FillInTheBlankEditor";
 
-// Define the Question type
+type QuestionType = "Multiple Choice" | "True/False" | "Fill in the Blank";
+
 type Question = {
   id: number;
-  type: string;
+  type: QuestionType;
+  title: string;
   points: number;
   text: string;
-  title: string;
+  choices?: string[]; 
+  correctChoice?: number;
+  isTrue?: boolean; 
+  blankAnswers?: string[]; 
   editMode: boolean;
-  blankAnswers?: string[];
 };
 
-// Available question types
-const QUESTION_TYPES = ["Multiple Choice", "True/False", "Fill in the Blank"];
+const QuizQuestionsEditor: React.FC = () => {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [totalPoints, setTotalPoints] = useState(0);
 
-const FillInTheBlankQuestionEditor: React.FC<{
-  question: Question;
-  updateQuestion: Function;
-  handleCancel: Function;
-  handleSave: Function;
-}> = ({ question, updateQuestion, handleCancel, handleSave }) => {
-  const addBlankAnswer = () => {
-    updateQuestion(question.id, {
-      blankAnswers: [...(question.blankAnswers || []), ""],
-    });
+  useEffect(() => {
+    const total = questions.reduce((sum, q) => sum + (q.points || 0), 0);
+    setTotalPoints(total);
+  }, [questions]);
+
+  const addNewQuestion = () => {
+    const newQuestion: Question = {
+      id: Date.now(),
+      type: "Multiple Choice",
+      title: "",
+      points: 1,
+      text: "",
+      choices: [""],
+      correctChoice: 0,
+      editMode: true,
+    };
+    setQuestions([...questions, newQuestion]);
   };
 
-  const removeBlankAnswer = (index: number) => {
-    const updatedAnswers = question.blankAnswers?.filter((_, i) => i !== index);
-    updateQuestion(question.id, { blankAnswers: updatedAnswers });
+  const updateQuestion = (id: number, updates: Partial<Question>) => {
+    setQuestions((prevQuestions) =>
+      prevQuestions.map((q) => (q.id === id ? { ...q, ...updates } : q))
+    );
+  };
+
+  const deleteQuestion = (id: number) => {
+    setQuestions((prevQuestions) => prevQuestions.filter((q) => q.id !== id));
+  };
+
+  const renderQuestionEditor = (question: Question) => {
+    switch (question.type) {
+      case "Multiple Choice":
+        return (
+          <MultipleChoiceEditor
+            question={question}
+            updateQuestion={updateQuestion}
+          />
+        );
+      case "True/False":
+        return (
+          <TrueFalseEditor
+            question={question}
+            updateQuestion={updateQuestion}
+          />
+        );
+      case "Fill in the Blank":
+        return (
+          <FillInTheBlankEditor
+            question={question}
+            updateQuestion={updateQuestion}
+          />
+        );
+      default:
+        return null;
+    }
   };
 
   return (
-    <div className="p-3 border rounded">
-      <div className="d-flex justify-content-between mb-3">
-        <input
-          type="text"
-          className="form-control me-2"
-          placeholder="Question Title"
-          value={question.title}
-          onChange={(e) =>
-            updateQuestion(question.id, { title: e.target.value })
-          }
-        />
-        <select
-          className="form-select"
-          value={question.type}
-          onChange={(e) =>
-            updateQuestion(question.id, { type: e.target.value })
-          }
-        >
-          {QUESTION_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-        <input
-          type="number"
-          className="form-control ms-2"
-          placeholder="Points"
-          value={question.points}
-          onChange={(e) =>
-            updateQuestion(question.id, { points: Number(e.target.value) })
-          }
-        />
-      </div>
-
+    <div className="quiz-editor p-3">
+      <h2 className="text-danger">Quiz Questions Editor</h2>
       <div className="mb-3">
-        <label className="form-label">Question:</label>
-        {/* WYSIWYG Placeholder */}
-        <textarea
-          className="form-control"
-          placeholder="Enter your question text, e.g., How much is 2 + 2 = _______?"
-          value={question.text}
-          onChange={(e) =>
-            updateQuestion(question.id, { text: e.target.value })
-          }
-        />
+        <button className="btn btn-primary" onClick={addNewQuestion}>
+          + New Question
+        </button>
       </div>
-
       <div className="mb-3">
-        <label className="form-label">Answers:</label>
-        {question.blankAnswers?.map((answer, index) => (
-          <div key={index} className="d-flex mb-2 align-items-center">
-            <input
-              type="text"
-              className="form-control"
-              value={answer}
-              onChange={(e) =>
-                updateQuestion(question.id, {
-                  blankAnswers: question.blankAnswers?.map((a, i) =>
-                    i === index ? e.target.value : a
-                  ),
-                })
-              }
-            />
-            <button
-              className="btn btn-outline-danger ms-2"
-              onClick={() => removeBlankAnswer(index)}
-            >
-              <i className="bi bi-trash"></i> {/* Bootstrap Icon for Delete */}
-            </button>
+        <strong>Total Points: {totalPoints}</strong>
+      </div>
+      <div>
+        {questions.map((question) => (
+          <div key={question.id} className="mb-4 p-3 border rounded">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h5 className="mb-0">
+                {question.title || "Untitled Question"}{" "}
+                <span className="text-muted">({question.type})</span>
+              </h5>
+              <select
+                className="form-select w-auto"
+                value={question.type}
+                onChange={(e) =>
+                  updateQuestion(question.id, { type: e.target.value as QuestionType })
+                }
+              >
+                <option value="Multiple Choice">Multiple Choice</option>
+                <option value="True/False">True/False</option>
+                <option value="Fill in the Blank">Fill in the Blank</option>
+              </select>
+            </div>
+            {question.editMode ? (
+              renderQuestionEditor(question)
+            ) : (
+              <div>
+                <p>{question.text}</p>
+                <p><strong>Points:</strong> {question.points}</p>
+                {question.type === "Multiple Choice" && (
+                  <div>
+                    <strong>Options:</strong>
+                    <ul>
+                      {question.choices?.map((choice, index) => (
+                        <li
+                          key={index}
+                          style={{
+                            fontWeight: question.correctChoice === index ? "bold" : "normal",
+                          }}
+                        >
+                          {choice}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <button
+                  className="btn btn-link text-primary"
+                  onClick={() =>
+                    updateQuestion(question.id, { editMode: true })
+                  }
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-link text-danger"
+                  onClick={() => deleteQuestion(question.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
         ))}
-        <button className="btn btn-link text-danger" onClick={addBlankAnswer}>
-          + Add Another Answer
-        </button>
-      </div>
-
-      <div className="d-flex justify-content-end">
-        <button
-          className="btn btn-secondary me-2"
-          onClick={() => handleCancel(question.id)}
-        >
-          Cancel
-        </button>
-        <button
-          className="btn btn-danger"
-          onClick={() => handleSave(question.id)}
-        >
-          Update Question
-        </button>
       </div>
     </div>
   );
 };
 
-export default FillInTheBlankQuestionEditor;
+export default QuizQuestionsEditor;
