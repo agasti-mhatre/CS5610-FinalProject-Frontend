@@ -9,6 +9,7 @@ import PeopleTable from "./People/Table";
 import Quizzes from "./Quizzes";
 import Michael from "./Quizzes/Michael";
 
+
 export default function Courses({ courses }: { courses: any[]; }) {
 
     const { cid } = useParams();
