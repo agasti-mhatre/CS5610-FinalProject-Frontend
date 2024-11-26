@@ -1,8 +1,8 @@
-import { useLocation, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { addQuiz, updateQuiz } from "./quizReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function QuizEditor() {
     const { cid, qid } = useParams();
@@ -11,23 +11,39 @@ export default function QuizEditor() {
     );
 
     const dispatch = useDispatch();
-    const seg = useLocation().pathname.split('/');
-    const loc = seg[seg.length - 1];
+    const navigate = useNavigate();
 
-    const [quizTitle, setQuizTitle] = useState(quiz ? quiz.title : "Unnamed Quiz");
-    const [quizInstructions, setQuizInstructions] = useState(quiz ? quiz.instructions : "");
-    const [quizType, setQuizType] = useState(quiz ? quiz.quizType : "Graded Quiz");
-    const [assignmentGroup, setAssignmentGroup] = useState(quiz ? quiz.assignmentGroup : "ASSIGNMENTS");
-    const [shuffleAnswers, setShuffleAnswers] = useState(quiz ? quiz.shuffleAnswers : false);
-    const [timeLimit, setTimeLimit] = useState(quiz ? quiz.timeLimit : "");
-    const [multipleAttempts, setMultipleAttempts] = useState(quiz ? quiz.multipleAttempts : false);
-    const [dueDate, setDueDate] = useState(quiz ? quiz.due : "yyyy-mm-dd");
-    const [availableFrom, setAvailableFrom] = useState(quiz ? quiz.available : "yyyy-mm-dd");
-    const [until, setUntil] = useState(quiz ? quiz.until : "yyyy-mm-dd");
+    // State variables for quiz details
+    const [quizTitle, setQuizTitle] = useState("Unnamed Quiz");
+    const [quizInstructions, setQuizInstructions] = useState("");
+    const [quizType, setQuizType] = useState("Graded Quiz");
+    const [assignmentGroup, setAssignmentGroup] = useState("ASSIGNMENTS");
+    const [shuffleAnswers, setShuffleAnswers] = useState(false);
+    const [timeLimit, setTimeLimit] = useState("");
+    const [multipleAttempts, setMultipleAttempts] = useState(false);
+    const [dueDate, setDueDate] = useState("");
+    const [availableFrom, setAvailableFrom] = useState("");
+    const [until, setUntil] = useState("");
+
+    // UseEffect to populate fields when quiz data is available
+    useEffect(() => {
+        if (quiz) {
+            setQuizTitle(quiz.title || "Unnamed Quiz");
+            setQuizInstructions(quiz.instructions || "");
+            setQuizType(quiz.quizType || "Graded Quiz");
+            setAssignmentGroup(quiz.assignmentGroup || "ASSIGNMENTS");
+            setShuffleAnswers(quiz.shuffleAnswers || false);
+            setTimeLimit(quiz.timeLimit || "");
+            setMultipleAttempts(quiz.multipleAttempts || false);
+            setDueDate(quiz.due || "");
+            setAvailableFrom(quiz.available || "");
+            setUntil(quiz.until || "");
+        }
+    }, [quiz]);
 
     const addOrEdit = () => {
         const newQuiz = {
-            _id: loc === "Editor" ? new Date().getTime().toString() : qid,
+            _id: qid || new Date().getTime().toString(),
             title: quizTitle,
             course: cid,
             instructions: quizInstructions,
@@ -38,14 +54,16 @@ export default function QuizEditor() {
             multipleAttempts,
             due: dueDate,
             available: availableFrom,
-            until
+            until,
         };
 
-        if (loc === "Editor") {
-            dispatch(addQuiz(newQuiz));
-        } else {
+        if (qid) {
             dispatch(updateQuiz(newQuiz));
+        } else {
+            dispatch(addQuiz(newQuiz));
         }
+
+        navigate(`/Kanbas/Courses/${cid}/Quizzes`);
     };
 
     return (

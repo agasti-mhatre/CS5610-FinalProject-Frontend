@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import { Button } from "react-bootstrap";
 
 export default function QuizDetails() {
     const { cid, qid } = useParams();
@@ -20,7 +19,6 @@ export default function QuizDetails() {
                     {quiz.title}
                 </h2>
                 <div>
-                    {/*<Button variant="secondary" className="me-2">Preview</Button>*/}
                     <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit`} className="btn btn-primary">Edit</Link>
                 </div>
             </div>
@@ -36,7 +34,7 @@ export default function QuizDetails() {
                 {quiz.multipleAttempts && (
                     <p><strong>How Many Attempts:</strong> {quiz.attempts || 1}</p>
                 )}
-                <p><strong>Show Correct Answers:</strong> {quiz.showCorrectAnswers}</p>
+                <p><strong>Show Correct Answers:</strong> {quiz.showCorrectAnswers || "None"}</p>
                 <p><strong>Access Code:</strong> {quiz.accessCode || "None"}</p>
                 <p><strong>One Question at a Time:</strong> {quiz.oneQuestionAtATime ? "Yes" : "No"}</p>
                 <p><strong>Webcam Required:</strong> {quiz.webcamRequired ? "Yes" : "No"}</p>
@@ -55,10 +53,10 @@ export default function QuizDetails() {
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{quiz.due}</td>
-                    <td>Everyone</td>
-                    <td>{quiz.available}</td>
-                    <td>{quiz.until}</td>
+                    <td>{quiz.due || "Not set"}</td>
+                    <td>{quiz.for || "Everyone"}</td>
+                    <td>{quiz.available || "Not set"}</td>
+                    <td>{quiz.until || "Not set"}</td>
                 </tr>
                 </tbody>
             </table>
