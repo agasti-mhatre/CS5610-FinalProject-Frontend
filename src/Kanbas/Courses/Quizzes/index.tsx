@@ -16,7 +16,7 @@ export default function Quizzes() {
   const [quizzes, setQuizzes] = useState<any[]>(db.quizzes);
   const quiz: any = {
     _id: "0", title: "Quiz", course: "RS101", points: 100,
-    available: "2023-09-10", due: "2023-12-15",
+    available: "2023-09-10", due: "2023-12-15",published: false
     // image: "/images/reactjs.jpg", description: "New Description"
   };
   const addNewQuiz = () => {
@@ -46,7 +46,15 @@ export default function Quizzes() {
     setQuizzes(quizzes.map((q) => (q._id === quiz._id ? quiz : q)));
   };
 
-
+  const togglePublish = (quizId: string) => {
+    setQuizzes(
+      quizzes.map((quiz) =>
+        quiz._id === quizId
+          ? { ...quiz, published: !quiz.published }
+          : quiz
+      )
+    );
+  };
 
   return (
     <div>
@@ -90,7 +98,12 @@ export default function Quizzes() {
                           }}
                           defaultValue={quiz.name} />
                       )}
-
+                      <span
+                        onClick={() => togglePublish(quiz._id)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {quiz.published ? "✅" : "🚫"}
+                      </span>
                       <QuizControlButtons quizId={quiz._id}
                         deleteQuiz={deleteQuiz} editQuiz={editQuiz} />
                     </p>

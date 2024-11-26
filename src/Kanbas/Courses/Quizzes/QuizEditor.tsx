@@ -10,7 +10,7 @@ export default function QuizEditor({ dialogTitle, quizName, setQuizName, addQuiz
                 <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
               </div>
               <div className="modal-body">
-                <input className="form-control" defaultValue={quizName} placeholder="Quiz Name"
+                <input className="form-control" value={quizName} placeholder="Quiz Name"
                        onChange={(e) => setQuizName(e.target.value)}/>
               </div>
               <div className="modal-footer">
