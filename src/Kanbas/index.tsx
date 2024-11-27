@@ -15,7 +15,7 @@ export default function Kanbas() {
 
   const [courses, setCourses] = useState<any[]>([]);
   const [course, setCourse] = useState<any>({
-    _id: "0", name: "New Course", number: "New Number",
+    _id: Date.now(), name: "New Course", number: "New Number",
     startDate: "2023-09-10", endDate: "2023-12-15",
     photo: "/images/reactjs.png", description: "New Description"
   });
@@ -24,7 +24,7 @@ export default function Kanbas() {
 
   const addNewCourse = async () => {
 
-    const newCourse = await userClient.createCourse(course);
+    const newCourse = await courseClient.createCourse(course);
     setCourses([ ...courses, newCourse ]);
   };
 
@@ -49,14 +49,17 @@ export default function Kanbas() {
   };
 
   const fetchCourses = async () => {
-    let courses = [];
+
     try {
-      courses = await userClient.findMyCourses();
+
+      const courses = await courseClient.fetchAllCourses();
+      setCourses(courses);
+
     } catch (error) {
       console.error(error);
     }
-    setCourses(courses);
   };
+ 
 
   useEffect(() => {
     fetchCourses();
