@@ -3,7 +3,6 @@ import { FaPencil } from "react-icons/fa6";
 import { FaCheck, FaUserCircle } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import { useParams, useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import * as client from "../../Account/client";
 
 export default function PeopleDetails() {
@@ -14,6 +13,8 @@ export default function PeopleDetails() {
     const [editing, setEditing] = useState(false);
     const [email, setEmail] = useState("");
     const [emailEditing, setEmailEditing] = useState(false);
+    const [role, setRole] = useState("");
+    const [roleEditing, setRoleEditing] = useState(false);
     
     const saveUser = async () => {
       
@@ -31,6 +32,15 @@ export default function PeopleDetails() {
         await client.updateUser(updatedUser);
         setUser(updatedUser);
         setEmailEditing(false);
+        navigate(-1);
+    };
+
+    const saveUserRole = async () => {
+
+        const updatedUser = { ...user, role };
+        await client.updateUser(updatedUser);
+        setUser(updatedUser);
+        setRoleEditing(false);
         navigate(-1);
     };
 
@@ -103,8 +113,33 @@ export default function PeopleDetails() {
                     </div>
                     )}
             </div>
+
+            <div className="wd-role"> 
+
+                {!roleEditing && (
+                    <FaPencil onClick={() => setRoleEditing(true)}
+                    className="float-end mt-2 wd-edit" /> )}
+                    {roleEditing && ( <FaCheck onClick={() => saveUserRole()} className="float-end fs-5 mt-2 me-2 wd-save" /> )}
+                        {!roleEditing && (
+                            <div className="wd-role" onClick={() => setRoleEditing(true)}>
+                                <b>Role:</b> {user.role}
+                            </div>
+                        )}
+
+                {user && roleEditing && (
+                    <div>
+                        <b>Role:</b>
+                        <select value={role} onChange={(e) => setRole(e.target.value)}
+                            className="form-select w-25 wd-select-role" >
+                                <option value="STUDENT">Students</option>
+                                <option value="TA">Assistants</option> 
+                                <option value="FACULTY">Faculty</option>
+                                <option value="ADMIN">Administrators</option>
+                        </select>
+                    </div>
+                    )}
+            </div>
             
-            <b>Roles:</b>           <span className="wd-roles">         {user.role}         </span> <br />
             <b>Login ID:</b>        <span className="wd-login-id">      {user.loginId}      </span> <br />
             <b>Section:</b>         <span className="wd-section">       {user.section}      </span> <br />
             <b>Total Activity:</b>  <span className="wd-total-activity">{user.totalActivity}</span>
