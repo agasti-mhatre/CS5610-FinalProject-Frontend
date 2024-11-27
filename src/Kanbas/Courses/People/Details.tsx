@@ -12,6 +12,8 @@ export default function PeopleDetails() {
     const [user, setUser] = useState<any>({});
     const [name, setName] = useState("");
     const [editing, setEditing] = useState(false);
+    const [email, setEmail] = useState("");
+    const [emailEditing, setEmailEditing] = useState(false);
     
     const saveUser = async () => {
       
@@ -21,7 +23,16 @@ export default function PeopleDetails() {
         setUser(updatedUser);
         setEditing(false);
         navigate(-1);
-    };  
+    };
+
+    const saveUserEmail = async () => {
+      
+        const updatedUser = { ...user, email };
+        await client.updateUser(updatedUser);
+        setUser(updatedUser);
+        setEmailEditing(false);
+        navigate(-1);
+    };
 
     const navigate = useNavigate();
   
@@ -68,11 +79,35 @@ export default function PeopleDetails() {
                         if (e.key === "Enter") { saveUser(); }}}/>
                     )}
             </div>
+
+            <div className="wd-email"> 
+
+                {!emailEditing && (
+                    <FaPencil onClick={() => setEmailEditing(true)}
+                    className="float-end mt-2 wd-edit" /> )}
+                    {emailEditing && ( <FaCheck onClick={() => saveUserEmail()} className="float-end fs-5 mt-2 me-2 wd-save" /> )}
+                        {!emailEditing && (
+                            <div className="wd-email" onClick={() => setEmailEditing(true)}>
+                                <b>Email:</b> {user.email}
+                            </div>
+                        )}
+
+                {user && emailEditing && (
+                    <div>
+                        <b>Email:</b>
+                        <input className="form-control w-50 wd-edit-email"
+                            defaultValue={`${user.email}`}
+                            onChange={(e) => setEmail(e.target.value)}
+                            onKeyDown={(e) => {
+                            if (e.key === "Enter") { saveUserEmail(); }}}/>
+                    </div>
+                    )}
+            </div>
             
             <b>Roles:</b>           <span className="wd-roles">         {user.role}         </span> <br />
             <b>Login ID:</b>        <span className="wd-login-id">      {user.loginId}      </span> <br />
             <b>Section:</b>         <span className="wd-section">       {user.section}      </span> <br />
-            <b>Total Activity:</b>  <span className="wd-total-activity">{user.totalActivity}</span> 
+            <b>Total Activity:</b>  <span className="wd-total-activity">{user.totalActivity}</span>
             <hr />
             <button onClick={() => deleteUser(uid)} className="btn btn-danger float-end wd-delete" > Delete </button>
             <button onClick={() => navigate(-1)}
