@@ -10,6 +10,7 @@ import Quizzes from "./Quizzes";
 import Michael from "./Quizzes/Michael";
 import QuestionEditor from "./Quizzes/Nour";
 
+
 export default function Courses({ courses }: { courses: any[]; }) {
 
     const { cid } = useParams();
