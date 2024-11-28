@@ -40,7 +40,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
               <Route path="People" element={<PeopleTable />} />
               <Route path="Quizzes" element={<Quizzes />} />
               <Route path="Quizzes/Michael" element={<Michael />} />
-              <Route path="Quizzes/Nour" element={<QuestionEditor />} />
+              {/* <Route path="Quizzes/Nour" element={<QuestionEditor />} /> */}
             </Routes>
           </div>
         </div>
