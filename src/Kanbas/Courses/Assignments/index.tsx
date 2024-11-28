@@ -51,9 +51,7 @@ export default function Assignments() {
             
               {
                 assignments
-                .filter((assignment : any) => assignment.course === cid)
                 .map(
-
                   (assignment: any) => (
                     <li className="wd-lesson list-group-item p-3 ps-1">
                       <div className="d-flex align-items-center">
