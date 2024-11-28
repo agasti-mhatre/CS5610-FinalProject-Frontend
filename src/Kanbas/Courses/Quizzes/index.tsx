@@ -27,15 +27,6 @@ export default function Quizzes() {
   //     ...quiz,
   //     _id: new Date().getTime().toString(),
 
-<<<<<<< HEAD
-    return (
-      <div>
-        <Link to={"Michael"}>Michael</Link>
-        <br />
-        <Link to={"Nour"}>Nour</Link>
-      </div>
-    );
-=======
   //   };
   //   setQuizzes([...quizzes, newQuizzes]);
   // };
@@ -147,5 +138,4 @@ export default function Quizzes() {
 
 
   );
->>>>>>> LiangZhen-test
 }
