@@ -13,70 +13,17 @@ import { useSelector, useDispatch } from "react-redux";
 
 export default function Quizzes() {
   const { cid } = useParams();
-  // const quizzes = db.quizzes;
   const [quizName, setQuizName] = useState("");
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
-  // const quiz: any = {
-  //   _id: "0", title: "Quiz", course: "RS101", points: 100,
-  //   available: "2023-09-10", due: "2023-12-15",published: false
-  //   // image: "/images/reactjs.jpg", description: "New Description"
-  // };
-  // const addNewQuiz = () => {
-  //   const newQuizzes = {
-  //     ...quiz,
-  //     _id: new Date().getTime().toString(),
-
-<<<<<<< HEAD
-    return (
-      <div>
-        <Link to={"Michael"}>Michael</Link>
-        <br />
-        <Link to={"Nour"}>Nour</Link>
-      </div>
-    );
-=======
-  //   };
-  //   setQuizzes([...quizzes, newQuizzes]);
-  // };
-  // const [quizName, setQuizName] = useState("");
-  // const addQuiz = () => {
-  //   setQuizzes([...quizzes, {
-  //     _id: new Date().getTime().toString(),
-  //     name: quizName, course: cid, lessons: []
-  //   }]);
-  //   setQuizName("");
-  // };
-
-  // const deleteQuiz = (quizId: string) => {
-  //   setQuizzes(quizzes.filter((q) => q._id !== quizId));
-  // };
-  // const editQuiz = (quizId: string) => {
-  //   setQuizzes(quizzes.map((q) => (q._id === quizId ? { ...q, editing: true } : q)));
-  // };
-  // const updateQuiz = (quiz: any) => {
-  //   setQuizzes(quizzes.map((q) => (q._id === quiz._id ? quiz : q)));
-  // };
-
-  // const togglePublish = (quizId: string) => {
-  //   setQuizzes(
-  //     quizzes.map((quiz) =>
-  //       quiz._id === quizId
-  //         ? { ...quiz, published: !quiz.published }
-  //         : quiz
-  //     )
-  //   );
-  // };
+  
+ 
 
   return (
     <div>
       <Link to={"Michael"}>Michael</Link>
       <hr />
-      {/* <h5 >New Quiz
-        <button className="btn btn-primary float-end"
-          id="wd-add-new-course-click"
-          onClick={addNewQuiz} > Add </button>
-      </h5><hr /> */}
+      
       <QuizzesControls setQuizName={setQuizName} quizName={quizName} addQuiz={()=>{
         dispatch(addQuiz({name:quizName,course:cid}));
         setQuizName("");
@@ -147,5 +94,4 @@ export default function Quizzes() {
 
 
   );
->>>>>>> LiangZhen-test
 }
