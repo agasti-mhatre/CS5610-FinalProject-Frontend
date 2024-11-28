@@ -77,15 +77,17 @@ export default function Quizzes() {
           </div>
           <ul className="wd-lessons list-group rounded-0">
             {quizzes
-              .map((quizzes) => (<li className="wd-lesson list-group-item p-3 ps-1">
+              .map((quiz) => (<li className="wd-lesson list-group-item p-3 ps-1">
                 <div className="d-flex align-items-center">
+                 
                   <div className="d-flex flex-column">
+                  
                     <p className="fs-4">
                       <FaRocket className="text-success me-3 fs-3" />
 
                       <a className="wd-assignment-link text-dark text-decoration-none"
-                        href={`#/Kanbas/Courses/${quizzes.course}/Assignments/${quizzes._id}`}>
-                        {quizzes.title}
+                        href={`#/Kanbas/Courses/${quiz.course}/Assignments/${quiz._id}`}>
+                        {quiz.title}
                       </a>
                       {!quiz.editing && quiz.name}
                       {quiz.editing && (
@@ -104,12 +106,14 @@ export default function Quizzes() {
                       >
                         {quiz.published ? "✅" : "🚫"}
                       </span>
+                      <span className="flex-grow-1"/>
                       <QuizControlButtons quizId={quiz._id}
                         deleteQuiz={deleteQuiz} editQuiz={editQuiz} />
                     </p>
+                    
                     <p className="fs-6">
-                      | <span className="fw-bold">Not available until</span> {quizzes.available} at 12:00am
-                      | <span className="fw-bold">Due</span> {quizzes.due} at 11:59pm | {quizzes.points} pts</p>
+                      | <span className="fw-bold">Not available until</span> {quiz.available} at 12:00am
+                      | <span className="fw-bold">Due</span> {quiz.due} at 11:59pm | {quiz.points} pts</p>
                   </div>
                 </div>
 
