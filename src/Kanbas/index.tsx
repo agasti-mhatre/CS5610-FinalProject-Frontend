@@ -25,6 +25,7 @@ export default function Kanbas() {
     try {
       const courses = await userClient.findCoursesForUser(currentUser._id);
       setCourses(courses);
+      console.log(courses);
     } catch (error) {
       console.error(error);
     }
@@ -47,8 +48,7 @@ export default function Kanbas() {
     } catch (error) {
       console.error(error);
     }
-  };
- 
+  }; 
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
@@ -102,7 +102,6 @@ export default function Kanbas() {
     } else {
       findCoursesForUser();
     }
-
   }, [currentUser, enrolling]);
 
   return (

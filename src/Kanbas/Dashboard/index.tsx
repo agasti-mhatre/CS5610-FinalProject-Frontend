@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Protected from "./Protected";
@@ -17,10 +17,6 @@ export default function Dashboard(
   }) {
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-
-    useEffect(() => {
-      
-    }, [currentUser._id]);
 
   return (
     <div id="wd-dashboard">
@@ -62,30 +58,30 @@ export default function Dashboard(
           .map((course: any) => (
             <div className="wd-dashboard-course col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">
-                {<Link to={`/Kanbas/Courses/${course._id}/Home`}
+                {<Link to={`/Kanbas/Courses/${course?._id}/Home`}
                       className="wd-dashboard-course-link text-decoration-none text-dark" >
-                  <img src={course.photo} width="100%" height={160} />
+                  <img src={course?.photo} width="100%" height={160} />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                       {enrolling && (
                         <button onClick={(event) => {
                           event.preventDefault();
-                          updateEnrollment(course._id, !course.enrolled);
-                          }} className={`btn ${ course.enrolled ? "btn-danger" : "btn-success" } float-end`}> 
-                          {course.enrolled ? "Unenroll" : "Enroll"}
+                          updateEnrollment(course?._id, !course?.enrolled);
+                          }} className={`btn ${ course?.enrolled ? "btn-danger" : "btn-success" } float-end`}> 
+                          {course?.enrolled ? "Unenroll" : "Enroll"}
                         </button>
                       )}
-                      {course.name} 
+                      {course?.name} 
                     </h5>
                     <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
-                      {course.description} </p>
+                      {course?.description} </p>
 
                     <button className="btn btn-primary"> Go </button>
 
                     <Protected>
                       <button onClick={(event) => {
                         event.preventDefault();
-                        deleteCourse(course._id);
+                        deleteCourse(course?._id);
                         }} className="btn btn-danger float-end"
                         id="wd-delete-course-click">
                         Delete
