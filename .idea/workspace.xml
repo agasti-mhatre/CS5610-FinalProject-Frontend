@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="46918494-376c-451b-b59b-ad2887b7323e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Kanbas/Courses/Quizzes/QuizEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kanbas/Courses/Quizzes/QuizEditor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Kanbas/Courses/Quizzes/editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kanbas/Courses/Quizzes/editor.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +71,7 @@
       <workItem from="1732972723809" duration="2241000" />
       <workItem from="1732975170335" duration="55000" />
       <workItem from="1732975259548" duration="443000" />
-      <workItem from="1732975732712" duration="5196000" />
+      <workItem from="1732975732712" duration="6265000" />
     </task>
     <servers />
   </component>

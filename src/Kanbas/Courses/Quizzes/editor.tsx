@@ -27,6 +27,13 @@ export default function QuizEditor() {
     const [dueDate, setDueDate] = useState("");
     const [availableFrom, setAvailableFrom] = useState("");
     const [until, setUntil] = useState("");
+    const [points, setPoints] = useState(0);
+    const [showCorrectAnswers, setShowCorrectAnswers] = useState("Immediately");
+    const [accessCode, setAccessCode] = useState("");
+    const [oneQuestionAtATime, setOneQuestionAtATime] = useState(true);
+    const [webcamRequired, setWebcamRequired] = useState(false);
+    const [lockQuestionsAfterAnswering, setLockQuestionsAfterAnswering] = useState(false);
+
 
     // Populate fields when quiz data is available
     useEffect(() => {
@@ -41,6 +48,12 @@ export default function QuizEditor() {
             setDueDate(quiz.due || "");
             setAvailableFrom(quiz.available || "");
             setUntil(quiz.until || "");
+            setPoints(quiz.points || 0);
+            setShowCorrectAnswers(quiz.showCorrectAnswers || "Immediately");
+            setAccessCode(quiz.accessCode || "");
+            setOneQuestionAtATime(quiz.oneQuestionAtATime || true);
+            setWebcamRequired(quiz.webcamRequired || false);
+            setLockQuestionsAfterAnswering(quiz.lockQuestionsAfterAnswering || false);
         }
     }, [quiz]);
 
@@ -58,6 +71,12 @@ export default function QuizEditor() {
             due: dueDate,
             available: availableFrom,
             until,
+            points,
+            showCorrectAnswers,
+            accessCode,
+            oneQuestionAtATime,
+            webcamRequired,
+            lockQuestionsAfterAnswering,
         };
 
         if (qid) {
@@ -125,6 +144,16 @@ export default function QuizEditor() {
                                 <option>Survey</option>
                             </select>
                         </div>
+                        <div className="mb-3">
+                            <label htmlFor="wd-points">Points</label>
+                            <input
+                                id="wd-points"
+                                type="number"
+                                className="form-control"
+                                value={points}
+                                onChange={(e) => setPoints(Number(e.target.value))}
+                            />
+                        </div>
 
                         <div className="d-flex mb-3 w-50">
                             <label htmlFor="wd-assignment-group" className="me-2">Assignment Group</label>
@@ -185,6 +214,69 @@ export default function QuizEditor() {
                                 />
                                 <label htmlFor="multiple-attempts" className="form-check-label">Allow Multiple Attempts</label>
                             </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="wd-show-correct-answers">Show Correct Answers</label>
+                                <select
+                                    id="wd-show-correct-answers"
+                                    className="form-select"
+                                    value={showCorrectAnswers}
+                                    onChange={(e) => setShowCorrectAnswers(e.target.value)}
+                                >
+                                    <option>Immediately</option>
+                                    <option>After Due Date</option>
+                                    <option>Never</option>
+                                </select>
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="wd-access-code">Access Code</label>
+                                <input
+                                    id="wd-access-code"
+                                    type="text"
+                                    className="form-control"
+                                    value={accessCode}
+                                    onChange={(e) => setAccessCode(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="form-check mb-3">
+                                <input
+                                    type="checkbox"
+                                    id="one-question-at-a-time"
+                                    className="form-check-input"
+                                    checked={oneQuestionAtATime}
+                                    onChange={() => setOneQuestionAtATime(!oneQuestionAtATime)}
+                                />
+                                <label htmlFor="one-question-at-a-time" className="form-check-label">
+                                    One Question at a Time
+                                </label>
+                            </div>
+
+                            <div className="form-check mb-3">
+                                <input
+                                    type="checkbox"
+                                    id="webcam-required"
+                                    className="form-check-input"
+                                    checked={webcamRequired}
+                                    onChange={() => setWebcamRequired(!webcamRequired)}
+                                />
+                                <label htmlFor="webcam-required" className="form-check-label">Webcam Required</label>
+                            </div>
+
+                            <div className="form-check mb-3">
+                                <input
+                                    type="checkbox"
+                                    id="lock-questions-after-answering"
+                                    className="form-check-input"
+                                    checked={lockQuestionsAfterAnswering}
+                                    onChange={() => setLockQuestionsAfterAnswering(!lockQuestionsAfterAnswering)}
+                                />
+                                <label htmlFor="lock-questions-after-answering" className="form-check-label">
+                                    Lock Questions After Answering
+                                </label>
+                            </div>
+                            
                         </div>
 
                         <div className="d-flex flex-column mt-3">
