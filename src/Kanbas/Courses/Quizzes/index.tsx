@@ -31,8 +31,6 @@ export default function Quizzes() {
 
     return (
         <div>
-            <Link to={"Michael"}>Michael</Link>
-            <hr />
 
             <QuizzesControls
                 setQuizName={setQuizName}
