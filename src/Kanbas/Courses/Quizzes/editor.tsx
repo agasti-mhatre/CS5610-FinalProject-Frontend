@@ -87,6 +87,10 @@ export default function QuizEditor() {
 
         navigate(`/Kanbas/Courses/${cid}/Quizzes`);
     };
+    
+    const handleQuestionsTabClick = () => {
+    navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/QuestionDetails`);
+};
 
     return (
         <div id="wd-quiz-editor">
@@ -98,9 +102,9 @@ export default function QuizEditor() {
                 >
                     Details
                 </button>
-                <button
+<button
                     className={`btn ${activeTab === "Questions" ? "btn-primary" : "btn-light"}`}
-                    onClick={() => setActiveTab("Questions")}
+                    onClick={handleQuestionsTabClick}
                 >
                     Questions
                 </button>
