@@ -17,11 +17,16 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
-}
-
-.wd-info-icon {
     color: #C7302B;
 }
+
+
+.wd-warning-icon {
+    color: #C7302B;
+    font-size: 1.5rem; 
+    margin-right: 10px; 
+}
+
 
 .wd-started {
     color: #2D3B45;
@@ -80,6 +85,7 @@
 }
 
 .wd-question-footer {
+    
     padding: 15px;
     display: flex;
     justify-content: space-between;
@@ -99,20 +105,64 @@
     cursor: not-allowed;
 }
 
-.wd-btn-next, .wd-btn-submit {
-    background-color: #2D3B45;
-    color: white;
-    border: none;
+.wd-btn-next {
+    background-color: #F5F5F5; 
+    color: #3c3c3c; 
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
 }
 
-.wd-quiz-footer {
+.wd-btn-submit {
+    background-color: #F5F5F5;
+    color: #3c3c3c;
+    border: 1px solid #ccc;
+    align-items: center;
+}
+
+.wd-quiz-footer-container {
+    border: 1px solid #ccc; 
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-top: 20px; 
+    margin-bottom: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    background: white;
+    max-width: 100%;
+    width: 100%;
+}
+
+
+.wd-quiz-footer-text {
+    flex-grow: 1; 
+    text-align: right;
+    color: #757575;
+}
+
+
+.wd-btn-submit {
+    background-color: #F5F5F5; 
+    color: #3c3c3c; 
+    border: 1px solid #ccc; 
+    margin-left: auto;
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+.wd-btn-submit:hover {
+    background-color: #f0f0f0; 
+    border-color: #555;
+}
+
+.wd-question-footer {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
     border-top: 1px solid #C7CDD1;
-    border-bottom: 1px solid #C7CDD1;
-    margin-bottom: 20px;
 }
 
 .wd-keep-editing {
@@ -120,6 +170,7 @@
     border-radius: 3px;
     padding: 15px;
     margin-bottom: 20px;
+    background-color: #F5F5F5;
 }
 
 .wd-btn-edit {
@@ -129,6 +180,7 @@
     color: #2D3B45;
     border: none;
     padding: 0;
+    background-color: #F5F5F5;
 }
 
 .wd-questions-list h3 {
@@ -137,12 +189,20 @@
     margin-bottom: 15px;
 }
 
+
 .wd-question-link {
-    color: #C7302B;
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
-    cursor: pointer;
+}
+
+.wd-question-icon {
+    margin-right: 8px;
+    color: #757575; 
+    font-size: 1.2rem;
 }
 
 .wd-question-number {
-    margin-left: 20px;
+    color: #b71c1c; 
 }
+

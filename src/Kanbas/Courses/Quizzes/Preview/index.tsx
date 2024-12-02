@@ -1,63 +1,8 @@
-// function Preview() {
-
-//     const fakeData = {
-//         _id: 1,
-//         title: "Q1 - HTML",
-//         started: "Nov 29 at 8:19 am",
-//         quiz_type: "Graded Quiz",
-//         points: 30,
-//         questions: [
-//             {
-//                 id: 1,
-//                 text: "An HTML label element can be associated with an HTML input element by setting their id attributes to the same value. The resulting effect is that when you click on the label text, the input element receives focus as if you had clicked on the input element itself.",
-//                 options: ["True", "False"],
-//                 correctAnswer: "True",
-//                 points: 1
-//               },
-//               {
-//                 id: 2,
-//                 text: "What is the purpose of the 'alt' attribute in an image tag?",
-//                 type: "Multiple Choice",
-//                 options: [
-//                   "To specify the image source",
-//                   "To specify alternate text for an image",
-//                   "To specify the width of an image"
-//                 ],
-//                 correctAnswer: "To specify alternate text for an image",
-//                 points: 2
-//               },
-//               {
-//                 id: 3,
-//                 text: "Fill in the blank: HTML is used to create _______.",
-//                 type: "Fill in the Blank",
-//                 correctAnswer: "web pages",
-//                 points: 2
-//               }
-//         ]
-//     }
-//   return (
-//     <div>
-//       <h2>Question Title</h2>
-//       <p>This is preview of the published version of the quiz</p>
-//       <p>started time: Nov 29 at 9:19am</p>
-//       <p>Quiz Instructions</p>
-//       <div>
-//         Question Content
-//       </div>
-//       <div>
-//         Quiz Control / Submit Quiz
-//       </div>
-//       <div>
-//         Edit and other questions
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Preview;
-
 import React, { useState } from 'react';
-import { FaEdit, FaInfoCircle } from 'react-icons/fa';
+import { FaEdit } from 'react-icons/fa';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
+import { MdErrorOutline, MdArrowRight } from 'react-icons/md';
+
 import "./index.css";
 
 function Preview() {
@@ -105,7 +50,6 @@ function Preview() {
             ...prev,
             [questionId]: answer
         }));
-        // setState(0)
     };
 
     const currentQuestion = fakeData.questions[currentQuestionIndex];
@@ -115,7 +59,7 @@ function Preview() {
             <h2>{fakeData.title}</h2>
             
             <div className="wd-preview-warning">
-                <FaInfoCircle className="wd-info-icon" />
+            <MdErrorOutline className="wd-warning-icon" />
                 <span>This is a preview of the published version of the quiz</span>
             </div>
 
@@ -167,14 +111,19 @@ function Preview() {
 
                 <div className="wd-question-footer">
                     <button className="wd-btn wd-btn-previous" disabled>Previous</button>
-                    <button className="wd-btn wd-btn-next">Next</button>
+                    <button className="wd-btn wd-btn-next">
+                        Next <MdArrowRight style={{ marginLeft: '5px' }} />
+                    </button>
                 </div>
             </div>
 
-            <div className="wd-quiz-footer">
-                <span>Quiz saved at {fakeData.started}</span>
-                <button className="wd-btn wd-btn-submit">Submit Quiz</button>
-            </div>
+            <div className="wd-quiz-footer-container">
+    <div className="wd-quiz-footer-text">
+        Quiz saved at {fakeData.started}
+    </div>
+    <button className="wd-btn wd-btn-submit">Submit Quiz</button>
+</div>
+
 
             <div className="wd-keep-editing">
                 <button className="wd-btn wd-btn-edit">
@@ -188,7 +137,13 @@ function Preview() {
                 <ul>
                     {fakeData.questions.map((_, index) => (
                         <li key={index} className="wd-question-link">
-                            <span className="wd-question-number">Question {index + 1}</span>
+                            <AiOutlineQuestionCircle className="wd-question-icon" />
+                            <span
+                                className="wd-question-number"
+                                style={{ fontWeight: currentQuestionIndex === index ? 'bold' : 'normal' }}
+                            >
+                                Question {index + 1}
+                            </span>
                         </li>
                     ))}
                 </ul>
