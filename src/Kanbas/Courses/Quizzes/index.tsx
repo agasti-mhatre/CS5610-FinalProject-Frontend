@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import QuizzesControls from "./QuizzesControls";
 import { addQuiz, deleteQuiz, updateQuiz, editQuiz, setQuizzes } from "./quizReducer";
 import { fetchQuizzes } from "./client";
+import * as quizClient from "./client";
 
 export default function Quizzes() {
     const { cid } = useParams(); // Course ID from URL
@@ -23,6 +24,8 @@ export default function Quizzes() {
 
     const togglePublish = (quiz: any) => {
         const updatedQuiz = { ...quiz, published: !quiz.published };
+
+        quizClient.updateQuiz(updatedQuiz);
         dispatch(updateQuiz(updatedQuiz));
     };
 

@@ -85,6 +85,7 @@ export default function QuizEditor() {
             numberOfQuestions: quiz?.numberOfQuestions || 0,
             lessons: quiz?.lessons || [],
             editing: false,
+            published: quiz?.published || false
         };
 
         if (qid !== "Editor") {
