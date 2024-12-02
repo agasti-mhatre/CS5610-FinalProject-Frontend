@@ -8,3 +8,9 @@ export const fetchQuizzes = async (cid: any) => {
     const response = await axios.get(`${QUIZZES_API}/${cid}`);
     return response.data;
 };
+
+export const addQuiz = async (quiz: any) => {
+
+    const response = await axios.post(`${QUIZZES_API}`, quiz);
+    return response.data;
+}

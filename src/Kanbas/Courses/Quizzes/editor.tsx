@@ -82,6 +82,7 @@ export default function QuizEditor() {
         if (qid) {
             dispatch(updateQuiz(newQuiz));
         } else {
+            
             dispatch(addQuiz(newQuiz));
         }
 
