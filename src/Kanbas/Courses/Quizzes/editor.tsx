@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { addQuiz, updateQuiz } from "./quizReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import * as quizClient from "./client";
 
 export default function QuizEditor() {
     const { cid, qid } = useParams();
@@ -57,32 +58,42 @@ export default function QuizEditor() {
         }
     }, [quiz]);
 
-    const addOrEdit = () => {
+    const addOrEdit = async () => {
+
         const newQuiz = {
             _id: qid || new Date().getTime().toString(),
-            title: quizTitle,
+            title: quizTitle || "Untitled Quiz",
             course: cid,
             instructions: quizInstructions,
-            quizType,
-            assignmentGroup,
-            shuffleAnswers,
-            timeLimit,
-            multipleAttempts,
-            due: dueDate,
-            available: availableFrom,
-            until,
-            points,
-            showCorrectAnswers,
-            accessCode,
-            oneQuestionAtATime,
-            webcamRequired,
-            lockQuestionsAfterAnswering,
+            quizType: quiz?.quizType || "Graded Quiz",
+            assignmentGroup: quiz?.assignmentGroup || "QUIZZES" ,
+            shuffleAnswers: quiz?.shuffleAnswers || false,
+            timeLimit: quiz?.timeLimit || "No Limit",
+            multipleAttempts: quiz?.multipleAttempts || false,
+            due: dueDate || null,
+            available: availableFrom || null,
+            until: quiz?.until || null,
+            points: quiz?.points || 0,
+            showCorrectAnswers: quiz?.showCorrectAnswers || "Immediately",
+            accessCode: quiz?.accessCode || "",
+            oneQuestionAtATime: quiz?.oneQuestionAtATime || false,
+            webcamRequired: quiz?.webcamRequired || false,
+            lockQuestionsAfterAnswering: quiz?.lockQuestionsAfterAnswering || false,
+            viewResponses: quiz?.viewResponses || "Always",
+            requireRespondusLockDown: quiz?.requireRespondusLockDown || false,
+            requiredToViewQuizResults: quiz?.requiredToViewQuizResults || false,
+            numberOfQuestions: quiz?.numberOfQuestions || 0,
+            lessons: quiz?.lessons || [],
+            editing: false,
         };
 
-        if (qid) {
+        if (qid !== "Editor") {
+            
+            newQuiz._id = new Date().getTime().toString();
             dispatch(updateQuiz(newQuiz));
         } else {
-            
+
+            await quizClient.addQuiz(newQuiz);
             dispatch(addQuiz(newQuiz));
         }
 
@@ -329,7 +340,9 @@ export default function QuizEditor() {
                             <Link to={`/Kanbas/Courses/${cid}/Quizzes`} className="btn btn-secondary me-2">Cancel</Link>
                             <button
                                 className="btn btn-danger"
-                                onClick={addOrEdit}
+                                onClick={async () => {
+                                    await addOrEdit();
+                                }}
                             >
                                 Save
                             </button>
