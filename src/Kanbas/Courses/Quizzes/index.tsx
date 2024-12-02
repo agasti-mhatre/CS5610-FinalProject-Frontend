@@ -39,6 +39,12 @@ export default function Quizzes() {
         dispatch(setQuizzes(quizzes));
     }
 
+    const deleteCurrQuiz = async (quizId: string) => {
+
+        await quizClient.deleteQuiz(quizId);
+        dispatch(deleteQuiz(quizId));
+    }
+
     useEffect(() => {
         fetchQuizzesForCourse();
       }, []);
@@ -110,7 +116,7 @@ export default function Quizzes() {
                                                     </button>
                                                     <button
                                                         className="btn btn-link text-danger d-flex align-items-center me-3"
-                                                        onClick={() => dispatch(deleteQuiz(quiz._id))}
+                                                        onClick={() => deleteCurrQuiz(quiz._id)}
                                                     >
                                                         <BsTrash className="me-1" /> Delete
                                                     </button>
