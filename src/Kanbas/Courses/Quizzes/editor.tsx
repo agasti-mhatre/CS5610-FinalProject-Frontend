@@ -88,11 +88,11 @@ export default function QuizEditor() {
         };
 
         if (qid !== "Editor") {
-            
-            newQuiz._id = new Date().getTime().toString();
+
             dispatch(updateQuiz(newQuiz));
         } else {
 
+            newQuiz._id = new Date().getTime().toString();
             await quizClient.addQuiz(newQuiz);
             dispatch(addQuiz(newQuiz));
         }
