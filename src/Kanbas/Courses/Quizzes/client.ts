@@ -14,3 +14,9 @@ export const addQuiz = async (quiz: any) => {
     const response = await axios.post(`${QUIZZES_API}`, quiz);
     return response.data;
 }
+
+export const updateQuiz = async (quiz: any) => {
+
+    const response = await axios.put(`${QUIZZES_API}`, quiz);
+    return response.data;
+}
