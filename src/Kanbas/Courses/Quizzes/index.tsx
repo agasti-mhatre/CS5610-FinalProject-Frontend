@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
 import { BsGripVertical, BsPencilSquare, BsTrash } from "react-icons/bs";
@@ -6,7 +6,8 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { FaRocket } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import QuizzesControls from "./QuizzesControls";
-import { addQuiz, deleteQuiz, updateQuiz, editQuiz } from "./quizReducer";
+import { addQuiz, deleteQuiz, updateQuiz, editQuiz, setQuizzes } from "./quizReducer";
+import { fetchQuizzes } from "./client";
 
 export default function Quizzes() {
     const { cid } = useParams(); // Course ID from URL
@@ -28,6 +29,16 @@ export default function Quizzes() {
     const handleEditQuiz = (quizId: string) => {
         navigate(`/Kanbas/Courses/${cid}/Quizzes/${quizId}/Edit`); // Navigate to QuizEditor with quiz ID
     };
+
+    const fetchQuizzesForCourse = async () => {
+
+        const quizzes = await fetchQuizzes(cid);
+        dispatch(setQuizzes(quizzes));
+    }
+
+    useEffect(() => {
+        fetchQuizzesForCourse();
+      }, []);
 
     return (
         <div>
@@ -51,7 +62,6 @@ export default function Quizzes() {
                     </div>
                     <ul className="wd-lessons list-group rounded-0">
                         {quizzes
-                            .filter((quiz: any) => quiz.course === cid) // Filter quizzes by course ID
                             .map((quiz: any) => (
                                 <li key={quiz._id} className="wd-lesson list-group-item p-3 ps-1">
                                     <div className="d-flex align-items-center">
