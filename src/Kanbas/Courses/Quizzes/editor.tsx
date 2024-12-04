@@ -65,34 +65,36 @@ export default function QuizEditor() {
             title: quizTitle || "Untitled Quiz",
             course: cid,
             instructions: quizInstructions,
-            quizType: quiz?.quizType || "Graded Quiz",
-            assignmentGroup: quiz?.assignmentGroup || "QUIZZES" ,
-            shuffleAnswers: quiz?.shuffleAnswers || false,
-            timeLimit: quiz?.timeLimit || "No Limit",
-            multipleAttempts: quiz?.multipleAttempts || false,
-            due: dueDate || null,
-            available: availableFrom || null,
-            until: quiz?.until || null,
-            points: quiz?.points || 0,
-            showCorrectAnswers: quiz?.showCorrectAnswers || "Immediately",
-            accessCode: quiz?.accessCode || "",
-            oneQuestionAtATime: quiz?.oneQuestionAtATime || false,
-            webcamRequired: quiz?.webcamRequired || false,
-            lockQuestionsAfterAnswering: quiz?.lockQuestionsAfterAnswering || false,
+            quizType: quizType,
+            assignmentGroup: assignmentGroup,
+            shuffleAnswers: shuffleAnswers,
+            timeLimit: timeLimit,
+            multipleAttempts: multipleAttempts,
+            due: dueDate,
+            available: availableFrom,
+            until: until,
+            points: points,
+            showCorrectAnswers: showCorrectAnswers,
+            accessCode: accessCode,
+            oneQuestionAtATime: oneQuestionAtATime,
+            webcamRequired: webcamRequired,
+            lockQuestionsAfterAnswering: lockQuestionsAfterAnswering,
             viewResponses: quiz?.viewResponses || "Always",
             requireRespondusLockDown: quiz?.requireRespondusLockDown || false,
             requiredToViewQuizResults: quiz?.requiredToViewQuizResults || false,
             numberOfQuestions: quiz?.numberOfQuestions || 0,
             lessons: quiz?.lessons || [],
             editing: false,
+            published: quiz?.published || false
         };
 
         if (qid !== "Editor") {
-            
-            newQuiz._id = new Date().getTime().toString();
+
+            await quizClient.updateQuiz(newQuiz);
             dispatch(updateQuiz(newQuiz));
         } else {
 
+            newQuiz._id = new Date().getTime().toString();
             await quizClient.addQuiz(newQuiz);
             dispatch(addQuiz(newQuiz));
         }

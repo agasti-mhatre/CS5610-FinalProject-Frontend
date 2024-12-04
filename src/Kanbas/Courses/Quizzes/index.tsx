@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import QuizzesControls from "./QuizzesControls";
 import { addQuiz, deleteQuiz, updateQuiz, editQuiz, setQuizzes } from "./quizReducer";
 import { fetchQuizzes } from "./client";
+import * as quizClient from "./client";
 
 export default function Quizzes() {
     const { cid } = useParams(); // Course ID from URL
@@ -23,6 +24,8 @@ export default function Quizzes() {
 
     const togglePublish = (quiz: any) => {
         const updatedQuiz = { ...quiz, published: !quiz.published };
+
+        quizClient.updateQuiz(updatedQuiz);
         dispatch(updateQuiz(updatedQuiz));
     };
 
@@ -34,6 +37,12 @@ export default function Quizzes() {
 
         const quizzes = await fetchQuizzes(cid);
         dispatch(setQuizzes(quizzes));
+    }
+
+    const deleteCurrQuiz = async (quizId: string) => {
+
+        await quizClient.deleteQuiz(quizId);
+        dispatch(deleteQuiz(quizId));
     }
 
     useEffect(() => {
@@ -107,7 +116,7 @@ export default function Quizzes() {
                                                     </button>
                                                     <button
                                                         className="btn btn-link text-danger d-flex align-items-center me-3"
-                                                        onClick={() => dispatch(deleteQuiz(quiz._id))}
+                                                        onClick={() => deleteCurrQuiz(quiz._id)}
                                                     >
                                                         <BsTrash className="me-1" /> Delete
                                                     </button>
