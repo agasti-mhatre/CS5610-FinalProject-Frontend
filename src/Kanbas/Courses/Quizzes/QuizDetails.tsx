@@ -1,8 +1,9 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function QuizDetails() {
     const { cid, qid } = useParams();
+    const navigate = useNavigate(); 
     const quiz = useSelector((state: any) =>
         state.quizzes.quizzes.find((q: any) => q._id === qid)
     );
@@ -10,6 +11,9 @@ export default function QuizDetails() {
     if (!quiz) {
         return <div>Quiz not found</div>;
     }
+    const handlePreviewClick = () => {
+        navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`);
+    };
 
     return (
         <div className="quiz-details-container">
@@ -20,6 +24,8 @@ export default function QuizDetails() {
                 </h2>
                 <div>
                     <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit`} className="btn btn-primary">Edit</Link>
+                    <button onClick={handlePreviewClick} className="btn btn-secondary ms-2">Preview</button>
+
                 </div>
             </div>
 
