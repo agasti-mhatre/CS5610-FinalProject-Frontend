@@ -69,33 +69,14 @@ export const deleteQuestion = async (questionId: string) => {
         throw error;
     }
 };
-// export const saveQuizResult = async (quizResult: any) => {
-//     try {
-//         const response = await axios.post(`${QUIZ_RESULTS_API}`, quizResult);
-//         return response.data;
-//     } catch (error: any) {
-//         console.error("Error saving quiz result:", error);
-//         throw error;
-//     }
-// };
 
-// // Method to fetch quiz results by quiz and user ID
-// export const fetchQuizResultByQuizAndUser = async (quizId: string, userId: string) => {
-//     try {
-//         const response = await axios.get(`${QUIZ_RESULTS_API}/${quizId}/${userId}`);
-//         return response.data;
-//     } catch (error: any) {
-//         console.error("Error fetching quiz result for quiz ID:", quizId, "and user ID:", userId, error);
-//         throw error;
-//     }
-// };
-// Add quiz result
+
 export const addQuizResult = async (quizResultData: any) => {
     const response = await axios.post(`${QUIZ_RESULTS_API}`, quizResultData);
     return response.data;
 };
 
-// Get quiz result by quizId and userId
+
 export const getQuizResult = async (quizId: string, userId: string) => {
     const response = await axios.get(`${QUIZ_RESULTS_API}/${quizId}/${userId}`);
     return response.data;

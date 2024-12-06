@@ -7,6 +7,7 @@ export default function QuizDetails() {
     const quiz = useSelector((state: any) =>
         state.quizzes.quizzes.find((q: any) => q._id === qid)
     );
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
 
     if (!quiz) {
         return <div>Quiz not found</div>;
@@ -24,7 +25,9 @@ export default function QuizDetails() {
                 </h2>
                 <div>
                     <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit`} className="btn btn-primary">Edit</Link>
-                    <button onClick={handlePreviewClick} className="btn btn-secondary ms-2">Preview</button>
+                    {currentUser?.role === "FACULTY" && (
+                        <button onClick={handlePreviewClick} className="btn btn-secondary ms-2">Preview</button>
+                    )}
 
                 </div>
             </div>
