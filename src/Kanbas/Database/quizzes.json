@@ -20,7 +20,8 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-12T23:59:00",
-        "numberOfQuestions": 10
+        "numberOfQuestions": 10,
+        "published": false
     },
     {
         "_id": "A102",
@@ -43,7 +44,8 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-12T23:59:00",
-        "numberOfQuestions": 8
+        "numberOfQuestions": 8,
+        "published": false
     },
     {
         "_id": "A103",
@@ -66,7 +68,8 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-12T23:59:00",
-        "numberOfQuestions": 12
+        "numberOfQuestions": 12,
+        "published": false
     },
     {
         "_id": "A201",
@@ -89,7 +92,8 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-13T23:59:00",
-        "numberOfQuestions": 15
+        "numberOfQuestions": 15,
+        "published": false
     },
     {
         "_id": "A202",
@@ -112,7 +116,8 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-13T23:59:00",
-        "numberOfQuestions": 10
+        "numberOfQuestions": 10,
+        "published": false
     },
     {
         "_id": "A203",
@@ -135,7 +140,8 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-13T23:59:00",
-        "numberOfQuestions": 12
+        "numberOfQuestions": 12,
+        "published": false
     },
     {
         "_id": "A301",
@@ -158,7 +164,8 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-14T23:59:00",
-        "numberOfQuestions": 20
+        "numberOfQuestions": 20,
+        "published": false
     },
     {
         "_id": "A302",
@@ -181,7 +188,8 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-14T23:59:00",
-        "numberOfQuestions": 18
+        "numberOfQuestions": 18,
+        "published": false
     },
     {
         "_id": "A303",
@@ -204,6 +212,7 @@
         "due": "2024-10-11T23:59:00",
         "available": "2024-10-10T00:00:00",
         "until": "2024-10-14T23:59:00",
-        "numberOfQuestions": 25
+        "numberOfQuestions": 25,
+        "published": false
     }
 ]

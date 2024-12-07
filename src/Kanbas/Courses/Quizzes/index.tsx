@@ -17,6 +17,7 @@ export default function Quizzes() {
     const { quizzes } = useSelector((state: any) => state.quizzesReducer); // Get quizzes from Redux state
     const dispatch = useDispatch();
     const navigate = useNavigate(); // Hook for navigation
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
 
     const toggleContextMenu = (quizId: string) => {
         setContextMenuQuizId((prev) => (prev === quizId ? null : quizId));
@@ -35,7 +36,11 @@ export default function Quizzes() {
 
     const fetchQuizzesForCourse = async () => {
 
-        const quizzes = await fetchQuizzes(cid);
+        const temp = await fetchQuizzes(cid);
+        const quizzes = currentUser?.role === "FACULTY" ? temp : temp.filter((quiz: any) => {
+            return quiz.published;
+        }); 
+
         dispatch(setQuizzes(quizzes));
     }
 
@@ -84,13 +89,15 @@ export default function Quizzes() {
                                                     {quiz.title}
                                                 </Link>
 
-                                                <span
-                                                    className="fs-4 ms-auto"
-                                                    style={{ cursor: "pointer" }}
-                                                    onClick={() => togglePublish(quiz)}
-                                                >
-                                                    {quiz.published ? "✅" : "🚫"}
-                                                </span>
+                                                {currentUser?.role === "FACULTY" && (
+                                                    <span
+                                                        className="fs-4 ms-auto"
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() => togglePublish(quiz)}
+                                                    >
+                                                        {quiz.published ? "✅" : "🚫"}
+                                                    </span>
+                                                )}
 
                                                 <IoEllipsisVertical
                                                     className="fs-4 ms-3"
