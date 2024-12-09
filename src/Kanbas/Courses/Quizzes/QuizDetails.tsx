@@ -30,6 +30,11 @@ export default function QuizDetails() {
                             <button onClick={handlePreviewClick} className="btn btn-secondary ms-2">Preview</button>
                     </div>
                 )}
+                {currentUser?.role !== "FACULTY" && (
+                    <div>                        
+                            <button onClick={handlePreviewClick} className="btn btn-secondary ms-2">Take Quiz</button>
+                    </div>
+                )}
             </div>
 
             {/* Quiz Details */}

@@ -18,6 +18,7 @@ function QuizPreview() {
     const { courseId } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>(); // Correctly typed dispatch
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
 
     // Local state to store quiz and questions
     const [quiz, setQuizDetails] = useState<any>(null);
@@ -164,10 +165,13 @@ function QuizPreview() {
                 <>
                     <h2>{quiz?.title || "Untitled Quiz"}</h2>
 
-                    <div className="wd-preview-warning">
-                        <MdErrorOutline className="wd-warning-icon" />
-                        <span>This is a preview of the published version of the quiz</span>
-                    </div>
+                
+                    {currentUser?.role === "FACULTY" && (
+                        <div className="wd-preview-warning">
+                            <MdErrorOutline className="wd-warning-icon" />
+                            <span>This is a preview of the published version of the quiz</span>
+                        </div>
+                    )}
 
                     <p className="wd-started">Started: {new Date().toLocaleString()}</p>
 
