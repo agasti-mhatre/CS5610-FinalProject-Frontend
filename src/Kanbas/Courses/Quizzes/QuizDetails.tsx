@@ -23,13 +23,13 @@ export default function QuizDetails() {
                 <h2 className="fw-bold">
                     {quiz.title}
                 </h2>
-                <div>
-                    <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit`} className="btn btn-primary">Edit</Link>
-                    {currentUser?.role === "FACULTY" && (
-                        <button onClick={handlePreviewClick} className="btn btn-secondary ms-2">Preview</button>
-                    )}
-
-                </div>
+                {currentUser?.role === "FACULTY" && (
+                    <div>
+                        <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit`} className="btn btn-primary">Edit</Link>
+                        
+                            <button onClick={handlePreviewClick} className="btn btn-secondary ms-2">Preview</button>
+                    </div>
+                )}
             </div>
 
             {/* Quiz Details */}
