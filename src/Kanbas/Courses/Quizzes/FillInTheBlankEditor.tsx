@@ -1,19 +1,11 @@
-
 import React, { useState } from "react";
-
-type Question = {
-  id: number;
-  title: string;
-  points: number;
-  text: string;
-  blankAnswers?: string[];
-  editMode: boolean;
-};
+import { Question } from "./quizDetailEditorReducer";
 
 const FillInTheBlankEditor: React.FC<{
   question: Question;
-  updateQuestion: (id: number, updates: Partial<Question>) => void;
-}> = ({ question, updateQuestion }) => {
+  updateQuestion: (id: string, updates: Partial<Question>) => void;
+  toggleEditing: () => void;
+}> = ({ question, updateQuestion, toggleEditing }) => {
   const [localQuestion, setLocalQuestion] = useState<Question>(question);
 
   const addAnswer = () => {
@@ -29,7 +21,6 @@ const FillInTheBlankEditor: React.FC<{
     );
     setLocalQuestion({ ...localQuestion, blankAnswers: updatedAnswers });
   };
-
   const removeAnswer = (index: number) => {
     const updatedAnswers = localQuestion.blankAnswers?.filter(
       (_, i) => i !== index
@@ -38,11 +29,8 @@ const FillInTheBlankEditor: React.FC<{
   };
 
   const saveQuestion = () => {
-    updateQuestion(localQuestion.id, { ...localQuestion, editMode: false });
-  };
-
-  const cancelEdit = () => {
-    updateQuestion(question.id, { editMode: false });
+    updateQuestion(localQuestion.questionId, { ...localQuestion, type: "Fill in the blank" });
+    toggleEditing();
   };
 
   return (
@@ -50,10 +38,10 @@ const FillInTheBlankEditor: React.FC<{
       <input
         type="text"
         className="form-control mb-2"
-        placeholder="Title"
-        value={localQuestion.title}
+        placeholder="Question Text"
+        value={localQuestion.text}
         onChange={(e) =>
-          setLocalQuestion({ ...localQuestion, title: e.target.value })
+          setLocalQuestion({ ...localQuestion, text: e.target.value })
         }
       />
       <input
@@ -65,36 +53,13 @@ const FillInTheBlankEditor: React.FC<{
           setLocalQuestion({ ...localQuestion, points: Number(e.target.value) })
         }
       />
-      <textarea
-        className="form-control mb-2"
-        placeholder="Question"
-        value={localQuestion.text}
-        onChange={(e) =>
-          setLocalQuestion({ ...localQuestion, text: e.target.value })
-        }
-      />
       <div>
-        {localQuestion.blankAnswers?.map((answer, index) => (
-          <div key={index} className="d-flex align-items-center mb-2">
-            <input
-              type="text"
-              className="form-control"
-              value={answer}
-              onChange={(e) => updateAnswer(index, e.target.value)}
-            />
-            <button
-              className="btn btn-outline-danger ms-2"
-              onClick={() => removeAnswer(index)}
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-        <button className="btn btn-link" onClick={addAnswer}>
-          + Add Answer
-        </button>
+        <p>
+          <strong>Correct Answers:</strong>{" "}
+          {localQuestion.correctAnswer.join(", ")}
+        </p>
       </div>
-      <button className="btn btn-secondary me-2" onClick={cancelEdit}>
+      <button className="btn btn-secondary me-2" onClick={toggleEditing}>
         Cancel
       </button>
       <button className="btn btn-danger" onClick={saveQuestion}>

@@ -1,74 +1,127 @@
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import * as client from "./client";
 
-const initialState: Question[] = JSON.parse(localStorage.getItem("questions") || "[]");
+
 
 export type Question = {
-  id: number;
-  title: string;
-  points: number;
+  questionId: string;
+  quizId: string;
   text: string;
-  choices?: string[];
-  correctChoice?: number;
-  isTrue?: boolean;
+  type: "Multiple Choice" | "True or False" | "Fill in the blank";
+  options: string[];
+  correctAnswer: string[];
   blankAnswers?: string[];
-  type: "Multiple Choice" | "True/False" | "Fill in the Blank";
-  editMode: boolean;
+  points: number;
+  _id?: string;
 };
+
+const initialState: Question[] = [];
+
+export const fetchQuestions = createAsyncThunk(
+  "questions/fetchQuestions",
+  async (quizId: string, thunkAPI) => {
+    try {
+      const response = await client.fetchQuestionsByQuizId(quizId);
+      return response;
+    } catch (error) {
+      console.error("Failed to fetch questions:", error);
+      return thunkAPI.rejectWithValue("Failed to fetch questions");
+    }
+  }
+);
+
+export const createQuestionAsync = createAsyncThunk(
+  "questions/createQuestion",
+  async (
+    { quizId, newQuestion }: { quizId: string; newQuestion: Partial<Question> }, thunkAPI) => {
+    try {
+      const response = await client.createQuestionForQuiz(quizId, newQuestion);
+      return response;
+    } catch (error) {
+      console.error("Failed to create question:", error);
+      return thunkAPI.rejectWithValue("Failed to delete question");
+    }
+  }
+);
+
+
+// Async Thunk for updating a question
+export const updateQuestionAsync = createAsyncThunk(
+  "questions/updateQuestion",
+  async (
+    { questionId, updates }: { questionId: string; updates: Partial<Question> },
+    thunkAPI
+  ) => {
+    try {
+      const response = await client.updateQuestion(questionId, updates);
+      return { questionId, updates: response }; // Return updated data from the server
+    } catch (error) {
+      console.error("Failed to update question:", error);
+      return thunkAPI.rejectWithValue("Failed to update question");
+    }
+  }
+);
+
+// Async Thunk for deleting a question
+export const deleteQuestionAsync = createAsyncThunk(
+  "questions/deleteQuestion",
+  async (questionId: string, thunkAPI) => {
+    try {
+      await client.deleteQuestion(questionId);
+      return questionId; // Return deleted questionId
+    } catch (error) {
+      console.error("Failed to delete question:", error);
+      return thunkAPI.rejectWithValue("Failed to delete question");
+    }
+  }
+);
+
 
 const quizDetailEditorSlice = createSlice({
   name: "questions",
-  initialState: initialState || [], 
+  initialState,
   reducers: {
-    addQuestion: (state) => {
+    addQuestion: (state, action: PayloadAction<{ quizId: string }>) => {
+      const { quizId } = action.payload;
       const newQuestion: Question = {
-        id: Date.now(),
-        type: "Multiple Choice",
-        title: "",
-        points: 1,
+        questionId: `QS${Math.floor(Math.random() * 1000)}`,
+        quizId,
         text: "",
-        choices: [""],
-        correctChoice: 0,
-        editMode: true,
+        type: "Multiple Choice",
+        options: [""],
+        correctAnswer: [""],
+        points: 1,
+        blankAnswers: [""],
       };
+
       state.push(newQuestion);
-      localStorage.setItem("questions", JSON.stringify(state));
     },
-
-    updateQuestion: (
-      state,
-      action: PayloadAction<{ id: number; updates: Partial<Question> }>
-    ) => {
-      const { id, updates } = action.payload;
-      const questionIndex = state.findIndex((q) => q.id === id);
-      if (questionIndex !== -1) {
-        state[questionIndex] = { ...state[questionIndex], ...updates };
-      }
-      localStorage.setItem("questions", JSON.stringify(state));
-    },
-
-    deleteQuestion: (state, action: PayloadAction<{ id: number }>) => {
-      const { id } = action.payload;
-      const updatedState = state.filter((q) => q.id !== id);
-      localStorage.setItem("questions", JSON.stringify(updatedState));
-      return updatedState;
-    },
-
     setQuestions: (state, action: PayloadAction<Question[]>) => {
+      localStorage.setItem("questions", JSON.stringify(action.payload));
       return action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createQuestionAsync.fulfilled, (state, action) => {
+      state.push(action.payload);
+    });
 
-    toggleEditMode: (state, action: PayloadAction<{ id: number }>) => {
-      const { id } = action.payload;
-      const question = state.find((q) => q.id === id);
-      if (question) {
-        question.editMode = !question.editMode;
+    builder.addCase(updateQuestionAsync.fulfilled, (state, action) => {
+      const { questionId, updates } = action.payload;
+      const questionIndex = state.findIndex((q) => q.questionId === questionId);
+      if (questionIndex !== -1) {
+        state[questionIndex] = { ...state[questionIndex], ...updates }; // Update the question in local state
       }
-    },
+    })
+
+    builder.addCase(deleteQuestionAsync.fulfilled, (state, action) => {
+      const questionId = action.payload;
+      return state.filter(question => question.questionId !== questionId);
+    })
   },
 });
 
-
-export const { addQuestion, updateQuestion, deleteQuestion, setQuestions, toggleEditMode } = quizDetailEditorSlice.actions;
+export const { addQuestion, setQuestions } = quizDetailEditorSlice.actions;
 
 export default quizDetailEditorSlice.reducer;

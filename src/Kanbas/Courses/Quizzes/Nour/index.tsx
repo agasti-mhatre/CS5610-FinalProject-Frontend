@@ -38,7 +38,7 @@ const FillInTheBlankQuestionEditor: React.FC<{
           type="text"
           className="form-control me-2"
           placeholder="Question Title"
-          value={question.title}
+          value={question.text}
           onChange={(e) =>
             updateQuestion(question.id, { title: e.target.value })
           }

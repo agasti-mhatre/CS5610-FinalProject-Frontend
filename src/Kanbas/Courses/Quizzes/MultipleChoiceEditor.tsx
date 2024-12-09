@@ -1,60 +1,51 @@
-
 import React, { useState } from "react";
+import { Question } from "./quizDetailEditorReducer";
 
-type Question = {
-  id: number;
-  title: string;
-  points: number;
-  text: string;
-  choices?: string[];
-  correctChoice?: number;
-  editMode: boolean;
-};
 
 const MultipleChoiceEditor: React.FC<{
   question: Question;
-  updateQuestion: (id: number, updates: Partial<Question>) => void;
-}> = ({ question, updateQuestion }) => {
+  updateQuestion: (id: string, updates: Partial<Question>) => void;
+  createQuestion: (quizId: string, newQuestion: Partial<Question>) => void;
+  toggleEditing: () => void;
+}> = ({ question, updateQuestion, toggleEditing, createQuestion }) => {
   const [localQuestion, setLocalQuestion] = useState<Question>(question);
+  const [newCorrectOption, setNewCorrectOption] = useState(localQuestion.correctAnswer);
+
+  console.log(localQuestion);
+  
 
   const addChoice = () => {
     setLocalQuestion((prev) => ({
       ...prev,
-      choices: [...(prev.choices || []), ""],
+      options: [...(prev.options || []), ''],
     }));
   };
 
-  const updateChoice = (index: number, value: string) => {
-    const updatedChoices = localQuestion.choices?.map((c, i) =>
-      i === index ? value : c
+  const updateOption = (index: number, value: string) => {
+    const updatedOptions = localQuestion.options?.map((option, i) =>
+      i === index ? value : option
     );
-    setLocalQuestion((prev) => ({ ...prev, choices: updatedChoices }));
+    setLocalQuestion((prev) => ({ ...prev, options: updatedOptions }));
   };
 
   const removeChoice = (index: number) => {
-    const updatedChoices = localQuestion.choices?.filter((_, i) => i !== index);
-    setLocalQuestion((prev) => ({ ...prev, choices: updatedChoices }));
+    const updatedOptions = localQuestion.options?.filter((_, i) => i !== index);
+    setLocalQuestion((prev) => ({ ...prev, options: updatedOptions }));
   };
 
   const saveQuestion = () => {
-    updateQuestion(localQuestion.id, { ...localQuestion, editMode: false });
-  };
-
-  const cancelEdit = () => {
-    updateQuestion(question.id, { editMode: false });
+    const updates = { ...localQuestion, type: 'Multiple Choice' as any };
+    console.log('new updates: ', updates);
+    if (question._id) {
+      updateQuestion(localQuestion.questionId, { ...localQuestion, type: 'Multiple Choice' });
+    } else {
+      createQuestion(localQuestion.quizId, updates)
+    }
+    toggleEditing();
   };
 
   return (
     <div>
-      <input
-        type="text"
-        className="form-control mb-2"
-        placeholder="Title"
-        value={localQuestion.title}
-        onChange={(e) =>
-          setLocalQuestion({ ...localQuestion, title: e.target.value })
-        }
-      />
       <input
         type="number"
         className="form-control mb-2"
@@ -64,6 +55,7 @@ const MultipleChoiceEditor: React.FC<{
           setLocalQuestion({ ...localQuestion, points: Number(e.target.value) })
         }
       />
+
       <textarea
         className="form-control mb-2"
         placeholder="Question"
@@ -73,20 +65,23 @@ const MultipleChoiceEditor: React.FC<{
         }
       />
       <div>
-        {localQuestion.choices?.map((choice, index) => (
+        {localQuestion.options?.map((option, index) => (
           <div key={index} className="d-flex align-items-center mb-2">
             <input
               type="radio"
-              name={`correct-choice-${localQuestion.id}`}
-              checked={localQuestion.correctChoice === index}
+              name={`correct-option-${localQuestion.questionId}`}
+              // checked={localQuestion.correctAnswer.includes(option)}
               onChange={() =>
-                setLocalQuestion({ ...localQuestion, correctChoice: index })
+                setLocalQuestion({
+                  ...localQuestion,
+                  correctAnswer: [localQuestion.options[index]],
+                })
               }
             />
             <textarea
               className="form-control ms-2"
-              value={choice}
-              onChange={(e) => updateChoice(index, e.target.value)}
+              value={option}
+              onChange={(e) => updateOption(index, e.target.value)}
             />
             <button
               className="btn btn-outline-danger ms-2"
@@ -100,7 +95,8 @@ const MultipleChoiceEditor: React.FC<{
           + Add Choice
         </button>
       </div>
-      <button className="btn btn-secondary me-2" onClick={cancelEdit}>
+
+      <button className="btn btn-secondary me-2" onClick={toggleEditing}>
         Cancel
       </button>
       <button className="btn btn-danger" onClick={saveQuestion}>

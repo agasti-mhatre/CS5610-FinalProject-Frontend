@@ -1,38 +1,26 @@
-
 import React, { useState } from "react";
-
-type Question = {
-  id: number;
-  title: string;
-  points: number;
-  text: string;
-  isTrue?: boolean;
-  editMode: boolean;
-};
+import { Question } from "./quizDetailEditorReducer";
 
 const TrueFalseEditor: React.FC<{
   question: Question;
-  updateQuestion: (id: number, updates: Partial<Question>) => void;
-}> = ({ question, updateQuestion }) => {
+  updateQuestion: (id: string, updates: Partial<Question>) => void;
+  toggleEditing: () => void;
+}> = ({ question, updateQuestion, toggleEditing }) => {
   const [localQuestion, setLocalQuestion] = useState<Question>(question);
 
   const saveQuestion = () => {
-    updateQuestion(localQuestion.id, { ...localQuestion, editMode: false });
-  };
-
-  const cancelEdit = () => {
-    updateQuestion(question.id, { editMode: false });
+    updateQuestion(localQuestion.questionId, { ...localQuestion, type: 'True or False' });
+    toggleEditing();
   };
 
   return (
     <div>
-      <input
-        type="text"
+      <textarea
         className="form-control mb-2"
-        placeholder="Title"
-        value={localQuestion.title}
+        placeholder="Question"
+        value={localQuestion.text}
         onChange={(e) =>
-          setLocalQuestion({ ...localQuestion, title: e.target.value })
+          setLocalQuestion({ ...localQuestion, text: e.target.value })
         }
       />
       <input
@@ -44,22 +32,14 @@ const TrueFalseEditor: React.FC<{
           setLocalQuestion({ ...localQuestion, points: Number(e.target.value) })
         }
       />
-      <textarea
-        className="form-control mb-2"
-        placeholder="Question"
-        value={localQuestion.text}
-        onChange={(e) =>
-          setLocalQuestion({ ...localQuestion, text: e.target.value })
-        }
-      />
       <div className="mb-2">
         <label>
           <input
             type="radio"
-            name={`true-false-${localQuestion.id}`}
-            checked={localQuestion.isTrue === true}
+            name={`true-false-${localQuestion.questionId}`}
+            checked={localQuestion.correctAnswer[0] === "True"}
             onChange={() =>
-              setLocalQuestion({ ...localQuestion, isTrue: true })
+              setLocalQuestion({ ...localQuestion, correctAnswer: ["True"] })
             }
           />
           True
@@ -67,16 +47,16 @@ const TrueFalseEditor: React.FC<{
         <label className="ms-3">
           <input
             type="radio"
-            name={`true-false-${localQuestion.id}`}
-            checked={localQuestion.isTrue === false}
+            name={`true-false-${localQuestion.questionId}`}
+            checked={localQuestion.correctAnswer[0] === "False"}
             onChange={() =>
-              setLocalQuestion({ ...localQuestion, isTrue: false })
+              setLocalQuestion({ ...localQuestion, correctAnswer: ["False"] })
             }
           />
           False
         </label>
       </div>
-      <button className="btn btn-secondary me-2" onClick={cancelEdit}>
+      <button className="btn btn-secondary me-2" onClick={toggleEditing}>
         Cancel
       </button>
       <button className="btn btn-danger" onClick={saveQuestion}>

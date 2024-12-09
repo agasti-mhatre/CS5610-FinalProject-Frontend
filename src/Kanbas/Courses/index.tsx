@@ -12,6 +12,7 @@ import QuizDetails from "./Quizzes/QuizDetails";
 import QuizEditor from "./Quizzes/editor";
 import QuizDetailsEditor from "./Quizzes/QuizDetailsEditor";
 import QuizPreview from "./Quizzes/Preview/index"; 
+import QuestionDetails from "./Quizzes/QuestionDetails";
 
 
 export default function Courses({ courses }: { courses: any[]; }) {
@@ -51,6 +52,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
                 <Route path="Quizzes/:qid/QuestionDetails" element={<QuizDetailsEditor />} />
                 {/* <Route path="Quizzes/Nour" element={<QuestionEditor />} /> */}
                 <Route path="Quizzes/:qid/Preview" element={<QuizPreview />} />
+                <Route path="/Kanbas/Courses/:cid/Quizzes/:qid/Questions" element={<QuestionDetails />}/>
             </Routes>
           </div>
         </div>

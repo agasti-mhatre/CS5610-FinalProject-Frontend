@@ -4,6 +4,7 @@ import { addQuiz, updateQuiz } from "./quizReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import * as quizClient from "./client";
+import { setQuestions } from "./quizDetailEditorReducer"; 
 
 export default function QuizEditor() {
     const { cid, qid } = useParams();
@@ -102,8 +103,24 @@ export default function QuizEditor() {
         navigate(`/Kanbas/Courses/${cid}/Quizzes`);
     };
     
-    const handleQuestionsTabClick = () => {
-    navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/QuestionDetails`);
+//     const handleQuestionsTabClick = () => {
+//     navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/QuestionDetails`);
+// };
+const handleQuestionsTabClick = async () => {
+    if (!qid) {
+        alert("Quiz ID is missing. Cannot fetch questions.");
+        return;
+    }
+
+    try {
+        // Fetch questions linked to the current quizId
+        const questions = await quizClient.fetchQuestionsByQuizId(qid);
+        dispatch(setQuestions(questions)); // Save questions to Redux store
+        navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/QuestionDetails`); // Navigate to QuestionDetails page
+    } catch (error) {
+        console.error("Error fetching questions:", error);
+        alert("Failed to load questions for this quiz.");
+    }
 };
 
     return (
